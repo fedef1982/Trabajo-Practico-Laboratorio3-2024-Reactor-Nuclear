@@ -1,0 +1,91 @@
+@startuml Diagrama de Clases
+skinparam ClassBackgroundColor pink
+
+'RELACIONES--------------------
+CentralNuclear *-- Reactor
+CentralNuclear *-- Operador
+Reactor o-l- Sensor
+Reactor <-- EstadoReactor
+Reactor -r[HIDDEN]- TurbinaDeRefrigeracion
+Reactor o-- BarraDeControl
+Tablero <-- Sensor
+CentralNuclear o-- BarraDeControl
+CentralNuclear o-- TurbinaDeRefrigeracion
+
+
+'-------------------------------
+
+
+class CentralNuclear {
+    -reactor: Reactor
+    - operador : Operador
+    -barrasDeControl: BarraDeControl[]
+    -turbinasDeRefrigeracion: TurbinaDeRefrigeracion[]
+    +controlarTemperatura()
+    +activarMecanismoEnfriamiento():number
+    +contarBarrasConsumidas():number
+}
+
+class Reactor {
+    - capacidad: number
+    - estado: Estado
+    - combustible : number
+    - sensor: Sensor
+    - porcentajeAumentoTemperatura : number
+
+    + iniciar()
+    + mantener(porcentajeReduccion : number)
+    + detener()
+    + generarEnergia(porcentajeAumentoTemperatura : number)
+    + disminuirEnergia(porcentajeReduccion : number)
+    - actualizarEstado()
+}
+
+class Sensor {
+    - temperatura : number
+    + getTemperatura() : number
+}
+
+interface CalcularPorcentajeReduccion{
+    + getPorcentajeReduccion(): number
+}
+
+class BarraDeControl implements CalcularPorcentajeReduccion {
+    - porcentajeReduccion: number
+    - tiempoVidaUtil: number
+    + getPorcentajeReduccion(): number
+    + setPorcentajeReduccion(porcentaje: number)
+    + getTiempoVidaUtil(): number
+    + setTiempoVidaUtil(tiempo: number)
+}
+
+class TurbinaDeRefrigeracion implements CalcularPorcentajeReduccion{
+    - porcentajeReduccion: number
+    - activo: boolean
+    + activar()
+    + desactivar()
+    + isActivo(): boolean
+    + getPorcentajeReduccion(): number
+}
+
+enum EstadoReactor{
+    APAGADO
+    NORMAL
+    DISMINUIDO
+    CRITICO
+}
+
+class Tablero{
+    + mostrarTemperaturaReactor(sensor: Sensor)
+    + mostrarCantidadEnergiaNetaProducida(horas : number)
+    + mostrarEnergiaNeta(sensor : Sensor)
+    - _calcularEnergiaNeta(temperatura : number)
+}
+
+class Operador{
+    - legajo
+    + getLegajo()
+    + activarProtocoloDeEnfriamiento(central: CentralNuclear)
+}
+
+@enduml
