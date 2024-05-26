@@ -4,11 +4,11 @@ export default class BarrasDeControl implements CalcularPorcentajeReduccion{
     private _porcentajeReduccion : number;
     private _tiempoVidaUtil : number;
 
-    constructor(t? : number){
+    constructor(tiempoVidaUtil? : number){
         this._porcentajeReduccion = -1;
         this._tiempoVidaUtil = -1;
-        if (t != undefined) {
-            this._tiempoVidaUtil = t;
+        if (tiempoVidaUtil != undefined) {
+            this._tiempoVidaUtil = tiempoVidaUtil;
         }
     }
     
