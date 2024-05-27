@@ -1,4 +1,5 @@
 import {EstadoReactor} from "../enums/estadoReactor";
+import IEstadoReactor from "./IEstadoReactor";
 import Sensor from "./sensor";
 
 export default class Reactor{
@@ -7,13 +8,15 @@ export default class Reactor{
     private _combustible : number; //cantidad de barras de uraneo
     private _sensor : Sensor;
     private _porcentajeAumentoTemperatura : number;
+    private _estadoReactorManager : IEstadoReactor;
 
-    constructor(sensor: Sensor, porcentajeAumentoTemp : number, combustible : number){
+    constructor(sensor: Sensor, porcentajeAumentoTemp : number, combustible : number, estadoManager : IEstadoReactor){
         this._capacidad = 700; 
         this._sensor = sensor;
         this._combustible = combustible;
         this._estado = EstadoReactor.APAGADO;
         this._porcentajeAumentoTemperatura = porcentajeAumentoTemp;
+        this._estadoReactorManager = estadoManager;
     }
 
     public get capacidad() : number {
@@ -44,19 +47,21 @@ export default class Reactor{
         while(this._sensor.temperaturaReactor > 280) {
             this.generarEnergia(this._porcentajeAumentoTemperatura);
         }
-        this._actualizarEstado();
+        this._estado = this._estadoReactorManager.actualizarEstado(this._sensor.temperaturaReactor);
     }
 
     public mantener(porcentajeReduccion : number) {
         while(this._sensor.temperaturaReactor > 329.98){
             this.disminuirEnergia(porcentajeReduccion);
         }
-        this._actualizarEstado();
+        this._estado = this._estadoReactorManager.actualizarEstado(this._sensor.temperaturaReactor);
+
     }
 
     public detener() {
         this._sensor.temperaturaReactor = 0;
-        this._actualizarEstado();
+        this._estado = this._estadoReactorManager.actualizarEstado(this._sensor.temperaturaReactor);
+
     }
 
     public generarEnergia(porcentajeAumentoTemperatura : number) {
@@ -64,33 +69,16 @@ export default class Reactor{
 
         this._sensor.temperaturaReactor += temperatura * porcentajeAumentoTemperatura / 100;
         this._combustible -= 1; //1 barra de uraneo??
-        this._actualizarEstado();
+        this._estado = this._estadoReactorManager.actualizarEstado(this._sensor.temperaturaReactor);
+
     }
 
     public disminuirEnergia(porcentajeReduccion : number) {//baja la temperatura
 
         this._sensor.temperaturaReactor -= 
         (this._sensor.temperaturaReactor * porcentajeReduccion / 100);
-        this._actualizarEstado();
-
+        this._estado = this._estadoReactorManager.actualizarEstado(this._sensor.temperaturaReactor);
     }
 
-       //*---Métodos-privados------------->
-
-    private _actualizarEstado() : void {
-        let temperatura : number = this._sensor.temperaturaReactor;
-
-        if(temperatura < 280) {
-            this.estado = EstadoReactor.ENCENDIDO;
-        }
-        else if(temperatura < 330) {
-            this.estado = EstadoReactor.NORMAL;
-        }
-        else if(temperatura < 400) {
-            this.estado = EstadoReactor.DISMINUIDO;
-        }
-        else{
-            this.estado = EstadoReactor.CRITICO;
-        }
-    }
+    
 }
