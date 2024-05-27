@@ -1,7 +1,7 @@
 import ColeccionTemperaturasVaciasException from "../exceptions/coleccionTemperaturasVaciasException";
 import Sensor from "../reactor/sensor";
 
-// 1) 5) y 6)
+// Resuelve enunciado 1) 5) y 6)
 
 export default class Tablero{
     private _temperaturas : number[];
