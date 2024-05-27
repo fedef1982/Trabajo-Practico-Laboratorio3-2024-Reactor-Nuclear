@@ -1,26 +1,24 @@
 @startuml Diagrama de Clases
-skinparam ClassBackgroundColor pink
+skinparam ClassBackgroundColor lavender
 
 'RELACIONES--------------------
 CentralNuclear *-- Reactor
-CentralNuclear *-- Operador
 Reactor o-l- Sensor
 Reactor <-- EstadoReactor
 Reactor -r[HIDDEN]- TurbinaDeRefrigeracion
-Reactor o-- BarraDeControl
+'Reactor o-- BarraDeControl
 Tablero <-- Sensor
-CentralNuclear o-- BarraDeControl
-CentralNuclear o-- TurbinaDeRefrigeracion
+CentralNuclear o-- Refrigerable
 
+CentralNuclear o-- Operador
 
 '-------------------------------
 
 
 class CentralNuclear {
     -reactor: Reactor
-    - operador : Operador
-    -barrasDeControl: BarraDeControl[]
-    -turbinasDeRefrigeracion: TurbinaDeRefrigeracion[]
+    -operadores: Operador[]
+    -refrigerantes: refrigerable[]
     +controlarTemperatura()
     +activarMecanismoEnfriamiento():number
     +contarBarrasConsumidas():number
@@ -37,7 +35,6 @@ class Reactor {
     + mantener(porcentajeReduccion : number)
     + detener()
     + generarEnergia(porcentajeAumentoTemperatura : number)
-    + disminuirEnergia(porcentajeReduccion : number)
     - actualizarEstado()
 }
 
@@ -46,26 +43,29 @@ class Sensor {
     + getTemperatura() : number
 }
 
-interface CalcularPorcentajeReduccion{
-    + getPorcentajeReduccion(): number
+
+interface Refrigerable{
+    + disminuirTemperatura(reactor: Reactor)
 }
 
-class BarraDeControl implements CalcularPorcentajeReduccion {
+class BarraDeControl implements Refrigerable {
     - porcentajeReduccion: number
     - tiempoVidaUtil: number
     + getPorcentajeReduccion(): number
     + setPorcentajeReduccion(porcentaje: number)
     + getTiempoVidaUtil(): number
     + setTiempoVidaUtil(tiempo: number)
+    + disminuirTemperatura(reactor: Reactor)
 }
 
-class TurbinaDeRefrigeracion implements CalcularPorcentajeReduccion{
+class TurbinaDeRefrigeracion implements Refrigerable{
     - porcentajeReduccion: number
     - activo: boolean
     + activar()
     + desactivar()
     + isActivo(): boolean
     + getPorcentajeReduccion(): number
+    + disminuirTemperatura(reactor: Reactor)
 }
 
 enum EstadoReactor{
