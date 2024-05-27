@@ -29,7 +29,7 @@ export default class Tablero{
         
         let promedio = energiaProducida.reduce((accumulator, currentValue) => accumulator + currentValue, 0) / energiaProducida.length;
 
-        console.log(`Energia neta producida por hola : ${promedio * horas}`);
+        console.log(`Energia neta producida por hora : ${promedio * horas}`);
     }
 
     private _calcularEnergiaNeta(temperatura : number){
