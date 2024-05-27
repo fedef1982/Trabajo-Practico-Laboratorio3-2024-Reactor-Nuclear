@@ -1,4 +1,5 @@
 @startuml Diagrama de Clases
+title "Diagrama de Clases"
 skinparam ClassBackgroundColor lavender
 
 'RELACIONES--------------------
