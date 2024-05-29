@@ -1,40 +1,34 @@
-import ColeccionTemperaturasVaciasException from "../exceptions/coleccionTemperaturasVaciasException";
-import Sensor from "../reactor/sensor";
+import IMostrable from "./IMostrable";
+import ValorEnergia from "./valorEnergia";
+import valorEnergiaProcucida from "./valorEnergiaProducida";
+import ValorTemperatura from "./valorTemperatura";
 
-// Resuelve puntos del enunciado 1) 5) y 6)
-
-export default class Tablero{
+export default abstract class Tablero{
+    private _indicadores : IMostrable[];
     private _temperaturas : number[];
 
     constructor(){
+        this._indicadores = [];
         this._temperaturas = [];
     }
-
-    public mostrarTemperaturaReactor(sensor : Sensor){ //punto 5
-        console.log(sensor.temperaturaReactor);
-        this._temperaturas.push(sensor.temperaturaReactor);
-    }
     
-    //muestra la energia neta producida actualmente -> punto  6
-    public mostrarEnergiaNeta(sensor : Sensor){
-        console.log(this._calcularEnergiaNeta(sensor.temperaturaReactor));
-    }
-    
-    public mostrarCantidadEnergiaNetaProducida(horas : number){
-        if(this._temperaturas.length == 0){
-            throw new ColeccionTemperaturasVaciasException();
-        }
-  
-        let energiaProducida : number[] = this._temperaturas.map(temp => this._calcularEnergiaNeta(temp));
-        
-        let promedio = energiaProducida.reduce((accumulator, currentValue) => accumulator + currentValue, 0) / energiaProducida.length;
-
-        console.log(`Energia neta producida por hora : ${promedio * horas}`);
+    public actualizarIndicadores(sensor: Sensor){
+        this._indicadores = [];
+        let indicador: IMostrable;
+        indicador = new ValorTemperatura(); 
+        this._temperaturas.push(sensor.temperatura);
+        this._indicadores.push(indicador);
+        indicador = new ValorEnergia(); 
+        this._indicadores.push(indicador);
+        indicador = new valorEnergiaProcucida(this._temperaturas.length,this._temperaturas); 
+        this._indicadores.push(indicador);
+        this.mostrarIndicadores();
     }
 
-    private _calcularEnergiaNeta(temperatura : number){
-        if (temperatura === 280) return 100;
-
-        return (14 * temperatura) - 3919.97;
+    public agregarAlarma (alarma: IMostrable){
+        this._indicadores.push(alarma);
+        this.mostrarIndicadores();
     }
+
+    abstract mostrarIndicadores():void;
 }
