@@ -4,68 +4,86 @@ skinparam ClassBackgroundColor lavender
 
 'RELACIONES--------------------
 CentralNuclear *-- Reactor
-Reactor o-l- Sensor
-Reactor <-- EstadoReactor
-Reactor -r[HIDDEN]- TurbinaDeRefrigeracion
-'Reactor o-- BarraDeControl
-Tablero <-- Sensor
 CentralNuclear o-- Refrigerable
-
-CentralNuclear o-- Operador
-
+CentralNuclear o-l- Operador
+CentralNuclear <-r- Tablero
+Reactor o-l- Sensor
+Reactor <-- IEstadoReactor
+Reactor -r[HIDDEN]- TurbinaDeRefrigeracion
+Reactor -u[HIDDEN]- EstadoReactor
+Tablero o-- IMostrable
+IMostrable -r[HIDDEN]- Alarma
 '-------------------------------
 
 
 class CentralNuclear {
-    -reactor: Reactor
-    -operadores: Operador[]
-    -refrigerantes: refrigerable[]
+    - _reactor: Reactor
+    - _operadores: Operador[]
+    - _refrigerantes: Refrigerable[]
+    - _cantidadBarrasConsumidas: number
+    - _alarma: Alarma
+    +agregarRefrigerante(refrigerante: Refrigerable)
+    +quitarRefrigerante(refrigerante: Refrigerante)
+    +agregarOperador(operador: Operador)
+    +quitarOperador(operador: Operador)
+    +cantidadBarrasConsumidas()
     +controlarTemperatura()
-    +activarMecanismoEnfriamiento():number
-    +contarBarrasConsumidas():number
+    +activarMecanismoEnfriamiento()
 }
 
 class Reactor {
-    - capacidad: number
-    - estado: Estado
-    - combustible : number
-    - sensor: Sensor
-    - porcentajeAumentoTemperatura : number
-
+    - _capacidad: number
+    - _estadoReactorManager: IEstadoReactor
+    - _combustible : number
+    - _sensor: Sensor
+    - _porcentajeAumentoTemperatura : number
     + iniciar()
     + mantener(porcentajeReduccion : number)
     + detener()
     + generarEnergia(porcentajeAumentoTemperatura : number)
-    - actualizarEstado()
+    + dismnuirEnergia(porcentajeReduccionTemperatura : number)
+}
+
+interface IEstadoReactor{
+    + actualizarEstado(temperatura: number):EstadoReactor
+}
+
+class EstadoReactorManager implements IEstadoReactor{
+    - _estado: EstadoReactor
+    + actualizarEstado(temperatura: number):EstadoReactor
+
 }
 
 class Sensor {
-    - temperatura : number
+    - _temperatura : number
     + getTemperatura() : number
+    + setTemperatura(temperatura: number)
 }
 
-
 interface Refrigerable{
+    + esUtil():boolean
     + disminuirTemperatura(reactor: Reactor)
 }
 
 class BarraDeControl implements Refrigerable {
-    - porcentajeReduccion: number
-    - tiempoVidaUtil: number
+    - _porcentajeReduccion: number
+    - _tiempoVidaUtil: number
     + getPorcentajeReduccion(): number
-    + setPorcentajeReduccion(porcentaje: number)
     + getTiempoVidaUtil(): number
     + setTiempoVidaUtil(tiempo: number)
+    - actualizarUtilidad()
+    - restarUtilidad()
+    + esUtil():boolean
     + disminuirTemperatura(reactor: Reactor)
 }
 
 class TurbinaDeRefrigeracion implements Refrigerable{
-    - porcentajeReduccion: number
-    - activo: boolean
+    - _porcentajeReduccion: number
+    - _activo: boolean
     + activar()
     + desactivar()
-    + isActivo(): boolean
     + getPorcentajeReduccion(): number
+    + esUtil():boolean
     + disminuirTemperatura(reactor: Reactor)
 }
 
@@ -76,15 +94,42 @@ enum EstadoReactor{
     CRITICO
 }
 
-class Tablero{
-    + mostrarTemperaturaReactor(sensor: Sensor)
-    + mostrarCantidadEnergiaNetaProducida(horas : number)
-    + mostrarEnergiaNeta(sensor : Sensor)
-    - _calcularEnergiaNeta(temperatura : number)
+
+interface IMostrable{
+    + mostrar(muestra: IMostrable)
+}
+
+class ValorTemperatura implements IMostrable{
+    - _descripcion: string
+    - _muestra: numero
+    + getTemperaturaReactor(sensor: Sensor)
+    + mostrar()
+}
+
+class ValorEnergia implements IMostrable{
+    - _descripcion: string
+    - _muestra: numero
+    + getCantidadEnergia(sensor: Sensor)
+    + mostrar()
+}
+
+class Alarma implements IMostrable{
+    - _mensaje: string 
+    + setMensaje (mensaje: string)
+    + getMensaje (): string
+    + mostrar()
+    + enviar(casing: string[])
+}
+
+class Tablero  {
+    - _indicadores: IMostrable[]
+    + actualizarIndicador(IMostrable)
+    + mostrarIndicadores()
 }
 
 class Operador{
-    - legajo
+    - _legajo
+    - _casilla: string[]
     + getLegajo()
     + activarProtocoloDeEnfriamiento(central: CentralNuclear)
 }
