@@ -1,0 +1,137 @@
+@startuml Diagrama de Clases
+title "Diagrama de Clases"
+skinparam ClassBackgroundColor lavender
+
+'RELACIONES--------------------
+CentralNuclear *-- Reactor
+CentralNuclear o-- Refrigerable
+CentralNuclear o-l- Operador
+CentralNuclear <-r- Tablero
+Reactor o-l- Sensor
+Reactor <-- IEstadoReactor
+Reactor -r[HIDDEN]- TurbinaDeRefrigeracion
+Reactor -u[HIDDEN]- EstadoReactor
+Tablero o-- IMostrable
+IMostrable -r[HIDDEN]- Alarma
+'-------------------------------
+
+
+class CentralNuclear {
+    - _reactor: Reactor
+    - _operadores: Operador[]
+    - _refrigerantes: Refrigerable[]
+    - _cantidadBarrasConsumidas: number
+    - _alarma: Alarma
+    +agregarRefrigerante(refrigerante: Refrigerable)
+    +quitarRefrigerante(refrigerante: Refrigerante)
+    +agregarOperador(operador: Operador)
+    +quitarOperador(operador: Operador)
+    +cantidadBarrasConsumidas()
+    +controlarTemperatura()
+    +activarMecanismoEnfriamiento()
+}
+
+class Reactor {
+    - _capacidad: number
+    - _estadoReactorManager: IEstadoReactor
+    - _combustible : number
+    - _sensor: Sensor
+    - _porcentajeAumentoTemperatura : number
+    + iniciar()
+    + mantener(porcentajeReduccion : number)
+    + detener()
+    + generarEnergia(porcentajeAumentoTemperatura : number)
+    + dismnuirEnergia(porcentajeReduccionTemperatura : number)
+}
+
+interface IEstadoReactor{
+    + actualizarEstado(temperatura: number):EstadoReactor
+}
+
+class EstadoReactorManager implements IEstadoReactor{
+    - _estado: EstadoReactor
+    + actualizarEstado(temperatura: number):EstadoReactor
+
+}
+
+class Sensor {
+    - _temperatura : number
+    + getTemperatura() : number
+    + setTemperatura(temperatura: number)
+}
+
+interface Refrigerable{
+    + esUtil():boolean
+    + disminuirTemperatura(reactor: Reactor)
+}
+
+class BarraDeControl implements Refrigerable {
+    - _porcentajeReduccion: number
+    - _tiempoVidaUtil: number
+    + getPorcentajeReduccion(): number
+    + getTiempoVidaUtil(): number
+    + setTiempoVidaUtil(tiempo: number)
+    - actualizarUtilidad()
+    - restarUtilidad()
+    + esUtil():boolean
+    + disminuirTemperatura(reactor: Reactor)
+}
+
+class TurbinaDeRefrigeracion implements Refrigerable{
+    - _porcentajeReduccion: number
+    - _activo: boolean
+    + activar()
+    + desactivar()
+    + getPorcentajeReduccion(): number
+    + esUtil():boolean
+    + disminuirTemperatura(reactor: Reactor)
+}
+
+enum EstadoReactor{
+    APAGADO
+    NORMAL
+    DISMINUIDO
+    CRITICO
+}
+
+
+interface IMostrable{
+    + mostrar(muestra: IMostrable)
+}
+
+class ValorTemperatura implements IMostrable{
+    - _descripcion: string
+    - _muestra: numero
+    + getTemperaturaReactor(sensor: Sensor)
+    + mostrar()
+}
+
+class ValorEnergia implements IMostrable{
+    - _descripcion: string
+    - _muestra: numero
+    + getCantidadEnergia(sensor: Sensor)
+    + mostrar()
+}
+
+class Alarma implements IMostrable{
+    - _mensaje: string 
+    + setMensaje (mensaje: string)
+    + getMensaje (): string
+    + mostrar()
+    + enviar(casing: string[])
+}
+
+class Tablero  {
+    - _indicadores: IMostrable[]
+    + actualizarIndicador(IMostrable)
+    + mostrarIndicadores()
+}
+
+class Operador{
+    - _legajo
+    - _casilla: string[]
+    + getLegajo()
+    + activarProtocoloDeEnfriamiento(central: CentralNuclear)
+}
+
+@enduml
