@@ -41,8 +41,8 @@ export default class BarrasDeControl implements Refrigerable{
         return true;
     }
 
-    disminuirTemperatura(reactor : Reactor){
+    disminuirTemperatura() : number{
         this.actualizarUtilidad();
-        reactor.disminuirEnergia(this._porcentajeReduccion);
+        return this._porcentajeReduccion;
     }
 }
