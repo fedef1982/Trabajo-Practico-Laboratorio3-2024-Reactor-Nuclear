@@ -25,17 +25,24 @@ export default class BarrasDeControl implements Refrigerable{
         return this._porcentajeReduccion;
     }
     
-    public actualizar() : void{
+    private actualizarUtilidad() : void{
        this._porcentajeReduccion = (this._tiempoVidaUtil /3600) * 100;
        this.restarVidaUtil();
     }
 
-    public restarVidaUtil () : void{
+    private restarVidaUtil () : void{
         this._tiempoVidaUtil--;
     }
 
-    disminuirTemperatura(reactor : Reactor){
-        this.actualizar();
-        reactor.disminuirEnergia(this._porcentajeReduccion);
+    esUtil() : boolean{
+        if (this._tiempoVidaUtil === 0){
+            return false;
+        } 
+        return true;
+    }
+
+    disminuirTemperatura() : number{
+        this.actualizarUtilidad();
+        return this._porcentajeReduccion;
     }
 }
