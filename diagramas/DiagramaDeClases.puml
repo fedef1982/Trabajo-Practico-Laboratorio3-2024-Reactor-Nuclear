@@ -12,7 +12,6 @@ Reactor <-- IEstadoReactor
 Reactor -r[HIDDEN]- TurbinaDeRefrigeracion
 Reactor -u[HIDDEN]- EstadoReactor
 Tablero o-- IMostrable
-Tablero -r[HIDDEN]- TableroConsola
 IMostrable -r[HIDDEN]- Alarma
 '-------------------------------
 
@@ -95,31 +94,24 @@ enum EstadoReactor{
     CRITICO
 }
 
+
 interface IMostrable{
-    + mostrar()
+    + mostrar(muestra: IMostrable)
 }
 
 class ValorTemperatura implements IMostrable{
     - _descripcion: string
-    - _valor: numero
+    - _muestra: numero
     + getTemperaturaReactor(sensor: Sensor)
     + mostrar()
 }
 
 class ValorEnergia implements IMostrable{
     - _descripcion: string
-    - _valor: numero
+    - _muestra: numero
     + getCantidadEnergia(sensor: Sensor)
     + mostrar()
 }
-
-class ValorEnergiaProducida implements IMostrable{
-    - _descripcion: string
-    - _valor: numero
-    + getCantidadEnergia(sensor: Sensor)
-    + mostrar()
-}
-
 
 class Alarma implements IMostrable{
     - _mensaje: string 
@@ -129,15 +121,9 @@ class Alarma implements IMostrable{
     + enviar(casing: string[])
 }
 
-abstract class  Tablero {
+class Tablero  {
     - _indicadores: IMostrable[]
-    - _temperatura: number
-    + actualizarIndicador(sensor: Sensor)
-    + agregarAlarma(alarma: IMostrable)
-    + mostrarIndicadores()
-}
-
-class TableroConsola extends Tablero {
+    + actualizarIndicador(IMostrable)
     + mostrarIndicadores()
 }
 
