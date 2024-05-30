@@ -1,5 +1,4 @@
 import Refrigerable from "./refrigerable";
-import Reactor from "../reactor/reactor";
 
 export default class BarrasDeControl implements Refrigerable{
     private _porcentajeReduccion : number;
@@ -25,12 +24,12 @@ export default class BarrasDeControl implements Refrigerable{
         return this._porcentajeReduccion;
     }
 
-    public actualizarUtilidad() : void{
+    private actualizarUtilidad() : void{
        this._porcentajeReduccion = (this._tiempoVidaUtil /3600) * 100;
        this.restarVidaUtil();
     }
 
-    public restarVidaUtil () : void{
+    private restarVidaUtil () : void{
         this._tiempoVidaUtil--;
     }
 
