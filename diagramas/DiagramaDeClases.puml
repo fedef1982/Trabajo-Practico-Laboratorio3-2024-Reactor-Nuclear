@@ -1,16 +1,18 @@
 @startuml Diagrama de Clases
 title "Diagrama de Clases"
-skinparam ClassBackgroundColor lavender
+skinparam ClassBackgroundColor LemonChiffon
 
 'RELACIONES--------------------
 CentralNuclear *-- Reactor
-CentralNuclear o-- Refrigerable
 CentralNuclear o-l- Operador
 CentralNuclear <-r- Tablero
-Reactor o-l- Sensor
+CentralNuclear o-- IRefrigerable
 Reactor <-- IEstadoReactor
 Reactor -r[HIDDEN]- TurbinaDeRefrigeracion
 Reactor -u[HIDDEN]- EstadoReactor
+Reactor o-- IRefrigerable
+Reactor o-- ICombustible
+Reactor o-- ISensor
 Tablero o-- IMostrable
 Tablero -r[HIDDEN]- TableroConsola
 IMostrable -r[HIDDEN]- Alarma
@@ -23,6 +25,7 @@ class CentralNuclear {
     - _refrigerantes: Refrigerable[]
     - _cantidadBarrasConsumidas: number
     - _alarma: Alarma
+
     +agregarRefrigerante(refrigerante: Refrigerable)
     +quitarRefrigerante(refrigerante: Refrigerante)
     +agregarOperador(operador: Operador)
@@ -33,59 +36,79 @@ class CentralNuclear {
 }
 
 class Reactor {
-    - _capacidad: number
-    - _estadoReactorManager: IEstadoReactor
-    - _combustible : number
-    - _sensor: Sensor
-    - _porcentajeAumentoTemperatura : number
+    - _capacidad : number
+    - _combustible : ICombustible
+    - _sensor : ISensor
+    - _estadoReactorManager : IEstadoReactor
+    - _barrasDeControl : IRefrigerable
+
     + iniciar()
-    + mantener(porcentajeReduccion : number)
     + detener()
-    + generarEnergia(porcentajeAumentoTemperatura : number)
     + dismnuirEnergia(porcentajeReduccionTemperatura : number)
+    - generarEnergia(porcentajeAumentoTemperatura : number)
+}
+interface ICombustible {
+    + cantidadCombustible(cantCombustible : number)
+    + getCantidadCombustible()
+    + porcentajeAumentoTemperatura() : number
 }
 
+class Combustible implements ICombustible {
+    - _cantidadCombustible : number
+    - _porcentajeAumentoTemperatura : number
+
+    + cantidadCombustible(cantCombustible : number)
+    +  getCantidadCombustible() : number
+    + porcentajeAumentoTemperatura() : number 
+
+}
 interface IEstadoReactor{
-    + actualizarEstado(temperatura: number):EstadoReactor
+    + actualizarEstado(temperatura : number) : void
 }
 
 class EstadoReactorManager implements IEstadoReactor{
     - _estado: EstadoReactor
-    + actualizarEstado(temperatura: number):EstadoReactor
-
+    + actualizarEstado(temperatura : number) : void
 }
 
-class Sensor {
+class Sensor implements ISensor {
     - _temperatura : number
     + getTemperatura() : number
     + setTemperatura(temperatura: number)
 }
-
-interface Refrigerable{
-    + esUtil():boolean
-    + disminuirTemperatura(reactor: Reactor)
+interface ISensor {
+    + temperaturaReactor(temperatura : number);
+    + getTemperaturaReactor () : number;
 }
 
-class BarraDeControl implements Refrigerable {
+interface IRefrigerable{
+    + esUtil():boolean
+    + disminuirTemperatura() : number
+}
+
+class BarraDeControl implements IRefrigerable {
     - _porcentajeReduccion: number
     - _tiempoVidaUtil: number
+
     + getPorcentajeReduccion(): number
     + getTiempoVidaUtil(): number
     + setTiempoVidaUtil(tiempo: number)
+    + esUtil():boolean
+     + disminuirTemperatura() : number
     - actualizarUtilidad()
     - restarUtilidad()
-    + esUtil():boolean
-    + disminuirTemperatura(reactor: Reactor)
 }
 
-class TurbinaDeRefrigeracion implements Refrigerable{
+
+class TurbinaDeRefrigeracion implements IRefrigerable{
     - _porcentajeReduccion: number
     - _activo: boolean
+
     + activar()
     + desactivar()
     + getPorcentajeReduccion(): number
     + esUtil():boolean
-    + disminuirTemperatura(reactor: Reactor)
+    + disminuirTemperatura() : number
 }
 
 enum EstadoReactor{
