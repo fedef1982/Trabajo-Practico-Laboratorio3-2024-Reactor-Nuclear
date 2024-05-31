@@ -7,4 +7,10 @@ export default class Mensaje{
         this._leido = false;
     }
 
+    
+    public get mensaje() : string {
+        return this._mensaje;
+    }
+    
+
 }
