@@ -4,11 +4,11 @@ export default class Turbina implements Refrigerable{
     private _porcentajeReduccion : number;
     private _activo : boolean;
     
-    constructor(potencia : number){
+    constructor(porcentaje : number){
         this._porcentajeReduccion = -1;
         this._activo = false;
-        if (potencia != undefined) {
-            this._porcentajeReduccion = potencia;
+        if (porcentaje != undefined) {
+            this._porcentajeReduccion = porcentaje;
         }
     }
 
