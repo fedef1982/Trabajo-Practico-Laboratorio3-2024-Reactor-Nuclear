@@ -83,7 +83,7 @@ interface ISensor {
 
 interface IRefrigerable{
     + esUtil():boolean
-    + disminuirTemperatura() : number
+    + getPorcentajeDeDisminucionTemperatura() : number
 }
 
 class BarraDeControl implements IRefrigerable {
@@ -94,7 +94,7 @@ class BarraDeControl implements IRefrigerable {
     + getTiempoVidaUtil(): number
     + setTiempoVidaUtil(tiempo: number)
     + esUtil():boolean
-     + disminuirTemperatura() : number
+    + getPorcentajeDeDisminucionTemperatura() : number
     - actualizarUtilidad()
     - restarUtilidad()
 }
@@ -108,7 +108,7 @@ class TurbinaDeRefrigeracion implements IRefrigerable{
     + desactivar()
     + getPorcentajeReduccion(): number
     + esUtil():boolean
-    + disminuirTemperatura() : number
+    + getPorcentajeDeDisminucionTemperatura() : number
 }
 
 enum EstadoReactor{
