@@ -9,22 +9,26 @@ CentralNuclear <-r- Tablero
 CentralNuclear o-- IRefrigerable
 Reactor <-- IEstadoReactor
 Reactor -r[HIDDEN]- TurbinaDeRefrigeracion
-Reactor -u[HIDDEN]- EstadoReactor
-Reactor o-- IRefrigerable
+Reactor -r[HIDDEN]- EstadoReactor
+Reactor o-- INucleo
 Reactor o-- ICombustible
 Reactor o-- ISensor
 Tablero o-- IMostrable
 Tablero -r[HIDDEN]- TableroConsola
 IMostrable -r[HIDDEN]- Alarma
+Nucleo o-- BarraDeControl
+INucleo -l[HIDDEN]- IEstadoReactor
+Operador o-l- Mensaje
 '-------------------------------
 
 
 class CentralNuclear {
     - _reactor: Reactor
     - _operadores: Operador[]
-    - _refrigerantes: Refrigerable[]
+    - _refrigerantes: IRefrigerable[]
     - _cantidadBarrasConsumidas: number
     - _alarma: Alarma
+    - _tablero: Tablero
 
     +agregarRefrigerante(refrigerante: Refrigerable)
     +quitarRefrigerante(refrigerante: Refrigerante)
@@ -33,6 +37,8 @@ class CentralNuclear {
     +cantidadBarrasConsumidas()
     +controlarTemperatura()
     +activarMecanismoEnfriamiento()
+    +encenderReactor()
+    +apagarReactor()
 }
 
 class Reactor {
@@ -40,13 +46,25 @@ class Reactor {
     - _combustible : ICombustible
     - _sensor : ISensor
     - _estadoReactorManager : IEstadoReactor
-    - _barrasDeControl : IRefrigerable
+    - _nucleo : INucleo
 
     + iniciar()
     + detener()
     + dismnuirEnergia(porcentajeReduccionTemperatura : number)
     - generarEnergia(porcentajeAumentoTemperatura : number)
 }
+
+interface INucleo{
+    + insertarBarraDeControl(barra: BarraDeControl)
+    + obtenerBarraDecontrol (): BarraDeControl
+}
+
+class Nucleo implements INucleo {
+    - barrasDeControl: IRefrigerable
+    + insertarBarraDeControl(barra: BarraDeControl)
+    + obtenerBarraDecontrol (): BarraDeControl
+}
+
 interface ICombustible {
     + cantidadCombustible(cantCombustible : number)
     + getCantidadCombustible()
@@ -145,16 +163,17 @@ class ValorEnergiaProducida implements IMostrable{
 
 
 class Alarma implements IMostrable{
-    - _mensaje: string 
-    + setMensaje (mensaje: string)
-    + getMensaje (): string
+    - _mensaje: Mensaje 
+    + setMensaje (mensaje: Mensaje)
+    + getMensaje (): Mensaje
     + mostrar()
-    + enviar(casing: string[])
+    + enviar(casilla: Mensaje[])
 }
+
 
 abstract class  Tablero {
     - _indicadores: IMostrable[]
-    - _temperatura: number
+    - _temperaturas: number[]
     + actualizarIndicador(sensor: Sensor)
     + agregarAlarma(alarma: IMostrable)
     + mostrarIndicadores()
@@ -164,9 +183,15 @@ class TableroConsola extends Tablero {
     + mostrarIndicadores()
 }
 
+class Mensaje{
+    - leido: boolean
+    - mensaje: string
+    +getterstsetters()
+}
+
 class Operador{
     - _legajo
-    - _casilla: string[]
+    - _casilla: Mensaje[]
     + getLegajo()
     + activarProtocoloDeEnfriamiento(central: CentralNuclear)
 }
