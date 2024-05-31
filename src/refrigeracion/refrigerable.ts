@@ -1,4 +1,4 @@
-export default interface Refrigerable{
+export default interface IRefrigerable{
     esUtil() : boolean;
-    disminuirTemperatura();
+    getPorcentajeDeDisminucionTemperatura() : number;
 }
