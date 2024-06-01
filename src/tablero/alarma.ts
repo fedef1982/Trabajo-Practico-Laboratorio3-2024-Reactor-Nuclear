@@ -1,16 +1,17 @@
 import IMostrable from "./IMostrable";
+import Mensaje from "./mensaje";
 
 export default class Alarma implements IMostrable{
 
-    private _mensaje: string;
+    private _mensaje : Mensaje;
 
-    constructor (mensaje:string){
+    constructor (mensaje : Mensaje){
         this._mensaje = mensaje;
     }
 
     public mostrar():string{
         const ahora = new Date;
-        return this._mensaje + " fecha: " + ahora;
+        return this._mensaje. + " fecha: " + ahora;
 
     }
     
