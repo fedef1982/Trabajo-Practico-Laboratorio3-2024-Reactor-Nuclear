@@ -67,7 +67,14 @@ export default class CentralNuclear{
         this._reactor.detener();
     }
 
-  
+    public enviarAlarmaParaTodosLosOperadores(alarma : Alarma){
+        let mensaje = alarma.mensaje;
+
+        for(let operador of this._operadores){
+            operador.agregarMensajeALaCasilla(mensaje);
+        }
+
+    }
 
     public controlarTemperatura(){
         try{
