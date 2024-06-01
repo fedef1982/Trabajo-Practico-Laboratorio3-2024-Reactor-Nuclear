@@ -11,7 +11,7 @@ export default class Alarma implements IMostrable{
 
     public mostrar():string{
         const ahora = new Date;
-        return this._mensaje. + " fecha: " + ahora;
+        return this._mensaje.cuerpo + " fecha: " + ahora;
 
     }
     
