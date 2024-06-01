@@ -16,8 +16,8 @@ export default class Mensaje{
         return this._leido;
     }
 
-    public set leido(leido : boolean) {
-        this._leido = leido;
+    public marcarComoLeido() {
+        this._leido = true;
     }
 
     public set cuerpo(cuerpo : string) {
