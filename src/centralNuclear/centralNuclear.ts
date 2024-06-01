@@ -12,6 +12,17 @@ export default class CentralNuclear{
     private _alarma : Alarma;
     private _tablero : Tablero;
 
+    constructor(reactor : Reactor, refrigerantes : Refrigerable[], operadores = Operador[], 
+        alarma : Alarma, tablero : Tablero)
+    {
+        this._reactor = reactor ?? Reactor;
+        this._refrigerantes = refrigerantes ?? [];
+        this._operadores = operadores ?? [];
+        this._alarma = alarma ?? Alarma;
+        this._tablero = tablero ?? Tablero;
+        this._cantidadDeBarrasConsumidas = 0;
+    }
+
     public agregarRefrigerante(refrigerante : Refrigerable){
 
         this._refrigerantes.push(refrigerante);
