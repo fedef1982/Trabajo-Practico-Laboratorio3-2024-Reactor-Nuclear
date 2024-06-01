@@ -18,6 +18,8 @@ export default class Operador{
         this._legajo = legajo;
     }
 
+    //tiene que enviar un mensaje a la central para que se active el mecanismo
+    //no se debe pasar la central como parametro
     public activarProtocoloDeEnfriamiento(central : CentralNuclear){
         central.activarMecanismoEnfriamiento();
     }
