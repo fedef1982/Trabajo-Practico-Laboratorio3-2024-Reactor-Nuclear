@@ -67,16 +67,25 @@ export default class CentralNuclear{
         this._reactor.detener();
     }
 
+  
+
     public controlarTemperatura(){
         try{
 
             while(this._reactor.sensor.temperaturaReactor >= 330 && this._reactor.sensor.temperaturaReactor <= 400){
-                this.activarMecanismoEnfriamiento();
+                //envio alarma al operador para que active el mecanismo de enfriamiento
+                let alarma = new Alarma(new Mensaje("Temperatura del reacto elevada, activar mecanismo de enfriamiento"));
+                this.enviarAlarmaParaTodosLosOperadores(alarma);
+                this._tablero.agregarAlarma(alarma);
+                
                 if(this._reactor.sensor.temperaturaReactor >= 400){
                     //apago el reactor
                     //this._reactor.detener();
-                    throw new excepcionTemperaturaCriticaReactor("Se detiene el reactor por temperatyra critica");
-                    
+                    throw new excepcionTemperaturaCriticaReactor("Se detiene el reactor por temperatura critica");
+                    //genero alarma a enviar
+                    let alarma = new Alarma(new Mensaje("Se detiene el reactor por temperatura critica del nucleo"));
+                    this._tablero.agregarAlarma(alarma);
+                    this.enviarAlarmaParaTodosLosOperadores(alarma);
                 }
                 //apago el reactor en el catch o en el try??
             }
