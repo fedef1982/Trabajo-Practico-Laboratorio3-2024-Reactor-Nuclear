@@ -12,8 +12,9 @@ export default class Nucleo implements INucleo{
         this._barrasDeControl.push(barra);
     }
 
-    //revisar
-    obtenerBarraDeControl(): BarrasDeControl {
-        return this._barrasDeControl[0];
+    obtenerBarraDeControl(): BarrasDeControl[] {
+        const barra = this._barrasDeControl;
+        this._barrasDeControl.splice(0, this._barrasDeControl.length);
+        return barra;
     }
 }
