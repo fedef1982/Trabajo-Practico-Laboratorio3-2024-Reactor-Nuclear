@@ -1,7 +1,7 @@
 export default class Operador{
     private _legajo : number;
     //casilla para recibir alertas
-    private _casilla : string[];
+    private _casilla : Mensaje[];
 
     constructor();
     constructor(legajo : number);
@@ -20,6 +20,10 @@ export default class Operador{
 
     public activarProtocoloDeEnfriamiento(central : CentralNuclear){
         central.activarMecanismoEnfriamiento();
+    }
+
+    public agregarMensajeALaCasilla(mensaje : Mensaje){
+        this._casilla.push(mensaje);
     }
     
 }
