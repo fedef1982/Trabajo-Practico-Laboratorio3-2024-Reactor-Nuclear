@@ -1,15 +1,15 @@
 export default class Mensaje{
     private _leido : boolean;
-    private _mensaje : string;
+    private _cuerpo : string;
 
-    constructor(mensaje : string){
-        this._mensaje = mensaje ?? "";
+    constructor(cuerpo : string){
+        this._cuerpo = cuerpo ?? "";
         this._leido = false;
     }
 
     
-    public get mensaje() : string {
-        return this._mensaje;
+    public get cuerpo() : string {
+        return this._cuerpo;
     }
 
     public get leido() : boolean {
@@ -20,8 +20,8 @@ export default class Mensaje{
         this._leido = leido;
     }
 
-    public set mensaje(mensaje : string) {
-        this._mensaje = mensaje;
+    public set cuerpo(cuerpo : string) {
+        this._cuerpo = cuerpo;
     }
     
 
