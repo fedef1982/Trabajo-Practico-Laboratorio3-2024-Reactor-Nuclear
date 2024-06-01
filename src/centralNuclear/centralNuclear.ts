@@ -1,8 +1,10 @@
 import Operador from "../operador/operador";
+import EstadoReactorManager from "../reactor/estadoReactorManager";
 import Reactor from "../reactor/reactor";
 import Refrigerable from "../refrigeracion/refrigerable";
 import Alarma from "../tablero/alarma";
 import Tablero from "../tablero/tablero";
+import excepcionTemperaturaCriticaReactor from "./excepcionTemperaturaCriticaReactor";
 
 export default class CentralNuclear{
     private _reactor : Reactor;
@@ -12,8 +14,7 @@ export default class CentralNuclear{
     private _alarma : Alarma;
     private _tablero : Tablero;
 
-    constructor(reactor : Reactor, refrigerantes : Refrigerable[], operadores = Operador[], 
-        alarma : Alarma, tablero : Tablero)
+    constructor(reactor : Reactor, refrigerantes : Refrigerable[], operadores : Operador[], alarma : Alarma, tablero : Tablero)
     {
         this._reactor = reactor ?? Reactor;
         this._refrigerantes = refrigerantes ?? [];
@@ -58,8 +59,34 @@ export default class CentralNuclear{
         this._reactor.iniciar();
     }
 
+    public activarMecanismoEnfriamiento(){
+        //implementacion de nico
+    }
+
     public apagarReactor(){
         this._reactor.detener();
+    }
+
+    public controlarTemperatura(){
+        try{
+
+            while(this._reactor.sensor.temperaturaReactor >= 330 && this._reactor.sensor.temperaturaReactor <= 400){
+                this.activarMecanismoEnfriamiento();
+                if(this._reactor.sensor.temperaturaReactor >= 400){
+                    //apago el reactor
+                    //this._reactor.detener();
+                    throw new excepcionTemperaturaCriticaReactor("Se detiene el reactor por temperatyra critica");
+                    
+                }
+                //apago el reactor en el catch o en el try??
+            }
+        }
+        catch(error){
+            if(error instanceof excepcionTemperaturaCriticaReactor){
+                //this._reactor.detener();
+                console.error("Se detiene el reactor por temperatura critica", error.message);
+            }
+        }
     }
    
 }
