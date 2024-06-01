@@ -6,7 +6,7 @@ export default class Alarma implements IMostrable{
     private _mensaje: Mensaje;
 
     constructor (mensaje:Mensaje){
-        this._mensaje = Mensaje;
+        this._mensaje = mensaje ?? "";
     }
 
     public mostrar():string{
