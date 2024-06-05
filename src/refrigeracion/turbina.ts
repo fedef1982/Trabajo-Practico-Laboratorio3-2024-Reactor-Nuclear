@@ -1,4 +1,4 @@
-import IRefrigerable from "./refrigerable";
+import IRefrigerable from "./refrigerableStrategy";
 
 export default class Turbina implements IRefrigerable{
     private _porcentajeReduccion : number;
@@ -28,7 +28,7 @@ export default class Turbina implements IRefrigerable{
         return this._activo;
     }
 
-    getPorcentajeDeDisminucionTemperatura() : number{
-        return this._porcentajeReduccion;
+    enfriar() {
+        //implementar
     }
 }
