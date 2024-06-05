@@ -1,6 +1,6 @@
-import IRefrigerable from "./refrigerable";
+import RefrigerableStrategy from "./refrigerableStrategy";
 
-export default class BarrasDeControl implements IRefrigerable{
+export default class BarrasDeControl implements RefrigerableStrategy{
     private _porcentajeReduccion : number;
     private _tiempoVidaUtil : number;
 
@@ -40,8 +40,7 @@ export default class BarrasDeControl implements IRefrigerable{
         return true;
     }
 
-    getPorcentajeDeDisminucionTemperatura() : number{
-        this.actualizarUtilidad();
-        return this._porcentajeReduccion;
+    enfriar() {
+        //implementar
     }
 }
