@@ -16,12 +16,18 @@ export default class EstadoReactorManager implements IEstadoReactor, ISuscriptor
     }
 
     public actualizarEstado(temperatura: number): void {
-
+        let estadoEncontrado = false;
+    
         for (const [rango, estado] of estadosReactor) {
             if (temperatura >= rango[0] && temperatura <= rango[1]) {
                 this._estado = estado;
+                estadoEncontrado = true;
+                break; 
             }
         }
-        throw new TemperaturaFueraDeRangoException("Valor fuera de los rangos manejados");
+    
+        if (!estadoEncontrado) {
+            throw new TemperaturaFueraDeRangoException("Valor fuera de los rangos manejados");
+        }
     }
 }
