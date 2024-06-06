@@ -1,7 +1,10 @@
 import { EstadoReactor } from "../enums/estadoReactor";
 import IEstadoReactor from "./IEstadoReactor";
+import { estadosReactor } from "../constantes";
+import ISuscriptorTemperatura from "./ISuscriptorTemperatura";
+import TemperaturaFueraDeRangoException from "../excepciones/temperaturaFueraDeRangoException";
 
-export default class EstadoReactorManager implements IEstadoReactor {
+export default class EstadoReactorManager implements IEstadoReactor, ISuscriptorTemperatura{
     private _estado : EstadoReactor;
 
     constructor(){
@@ -12,19 +15,13 @@ export default class EstadoReactorManager implements IEstadoReactor {
         return this._estado;
     }
 
-    public actualizarEstado(temperatura : number) : void {
+    public actualizarEstado(temperatura: number): void {
 
-        if(temperatura < 280) {
-            this._estado = EstadoReactor.ENCENDIDO;
+        for (const [rango, estado] of estadosReactor) {
+            if (temperatura >= rango[0] && temperatura <= rango[1]) {
+                this._estado = estado;
+            }
         }
-        else if(temperatura < 330) {
-            this._estado = EstadoReactor.NORMAL;
-        }
-        else if(temperatura < 400) {
-            this._estado = EstadoReactor.DISMINUIDO;
-        }
-        else{
-            this._estado = EstadoReactor.CRITICO;
-        }
+        throw new TemperaturaFueraDeRangoException("Valor fuera de los rangos manejados");
     }
 }
