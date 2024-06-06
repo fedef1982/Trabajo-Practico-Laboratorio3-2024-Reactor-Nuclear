@@ -1,17 +1,17 @@
 @startuml Diagrama de Clases
 title "Diagrama de Clases"
-skinparam ClassBackgroundColor LemonChiffon
+skinparam ClassBackgroundColor LightPink
 
 'RELACIONES--------------------
 CentralNuclear *-- Reactor
-CentralNuclear o-l- Operador
+CentralNuclear o-up- Operador
 CentralNuclear <-r- Tablero
 CentralNuclear *-- RefrigerableStrategy
 Reactor <-- IEstadoReactor
 Reactor -r[HIDDEN]- TurbinaDeRefrigeracion
 Reactor -r[HIDDEN]- EstadoReactor
 Reactor o-- INucleo
-Reactor o-- ICombustible
+Reactor o-r- ICombustible
 Reactor o-- ISensor
 Tablero o-- IMostrable
 Tablero -r[HIDDEN]- TableroConsola
@@ -21,8 +21,9 @@ INucleo -l[HIDDEN]- IEstadoReactor
 Operador o-l- Mensaje
 BarraDeControlStrategy *-- BarraDeControl
 TurbinaStrategy *-- Turbina
+DirectorReactor *-- IBuilderRactor
+BuilderReactor --> Reactor
 '-------------------------------
-
 
 class CentralNuclear {
     - _reactor: Reactor
@@ -55,7 +56,32 @@ class Reactor {
     + iniciar()
     + detener()
     + dismnuirEnergia(porcentajeReduccionTemperatura : number)
-    - generarEnergia(porcentajeAumentoTemperatura : number)
+    - generarEnergia()
+}
+
+interface IBuilderRactor {
+    + setCapacidad(capacidad : number) : void;
+    + setCombustible(combustible : ICombustible) : void;
+    + setSensor(sensor : ISensor) : void;
+    + setEstadoManager(estadoManager : IEstadoReactor) : void;
+    + setNucleo(nucleo : INucleo) : void;
+}
+
+class BuilderReactor implements IBuilderRactor {
+    - _capacidad : number;
+    - _combustible : ICombustible;
+    - _sensor : ISensor;
+    - _estadoReactorManager : IEstadoReactor;
+    - _nucleo : INucleo;
+    
+    + getReactor() : Reactor
+}
+
+class DirectorReactor {
+    - _builder : IBuilderReactor
+
+    + cambiarBuilder( builder : IBuilderReactor) : void
+    + crearReactor() : void
 }
 
 interface INucleo{
@@ -87,17 +113,27 @@ class Combustible implements ICombustible {
 interface IEstadoReactor{
     + actualizarEstado(temperatura : number) : void
 }
+' ----> VER!
+interface ISuscriptorTemperatura {
+    + actualizarEstado(temperatura : number) : void
+}
 
-class EstadoReactorManager implements IEstadoReactor{
+class EstadoReactorManager implements IEstadoReactor, ISuscriptorTemperatura{
     - _estado: EstadoReactor
     + actualizarEstado(temperatura : number) : void
 }
 
 class Sensor implements ISensor {
     - _temperatura : number
+    - _suscriptores : ISuscriptorTemperatura[]
+    
     + getTemperatura() : number
     + setTemperatura(temperatura: number)
+    + suscribir(suscriptor : ISuscriptorTemperatura)
+    + desuscribir(suscriptor : ISuscriptorTemperatura)
+    - notificar() : void 
 }
+
 interface ISensor {
     + temperaturaReactor(temperatura : number);
     + getTemperaturaReactor () : number;
