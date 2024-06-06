@@ -6,7 +6,7 @@ skinparam ClassBackgroundColor LemonChiffon
 CentralNuclear *-- Reactor
 CentralNuclear o-l- Operador
 CentralNuclear <-r- Tablero
-CentralNuclear o-- IRefrigerable
+CentralNuclear *-- RefrigerableStrategy
 Reactor <-- IEstadoReactor
 Reactor -r[HIDDEN]- TurbinaDeRefrigeracion
 Reactor -r[HIDDEN]- EstadoReactor
@@ -19,19 +19,23 @@ IMostrable -r[HIDDEN]- Alarma
 Nucleo o-- BarraDeControl
 INucleo -l[HIDDEN]- IEstadoReactor
 Operador o-l- Mensaje
+BarraDeControlStrategy *-- BarraDeControl
+TurbinaStrategy *-- Turbina
 '-------------------------------
 
 
 class CentralNuclear {
     - _reactor: Reactor
     - _operadores: Operador[]
-    - _refrigerantes: IRefrigerable[]
+    - _estrategiaParaRefrigerar: RefrigerableStrategy
     - _cantidadBarrasConsumidas: number
     - _alarma: Alarma
     - _tablero: Tablero
 
     +agregarRefrigerante(refrigerante: Refrigerable)
     +quitarRefrigerante(refrigerante: Refrigerante)
+    +getStrategy(): RefrigerableStrategy
+    +setStrategy(strategy ; RefrigerableStrategy)
     +agregarOperador(operador: Operador)
     +quitarOperador(operador: Operador)
     +cantidadBarrasConsumidas()
@@ -99,34 +103,40 @@ interface ISensor {
     + getTemperaturaReactor () : number;
 }
 
-interface IRefrigerable{
-    + esUtil():boolean
-    + getPorcentajeDeDisminucionTemperatura() : number
+interface RefrigerableStrategy{
+    + enfriar(reactor : Reactor)
 }
 
-class BarraDeControl implements IRefrigerable {
+class BarraDeControlStrategy implements RefrigerableStrategy{
+    - _barras : BarraDeControl[]
+    - _barrasUsadas : number
+
+    + getBarrasUsadas() : number
+    - restablecerBarrasUsadas()
+    + agregarBarra(barra : BarrasDeControl)
+    + quitarBarra(barra : BarrasDeControl)
+    - esUtil(barra : BarraDeControl) : boolean
+    + enfriar(reactor : Reactor) : void
+}
+
+class BarraDeControl{
     - _porcentajeReduccion: number
     - _tiempoVidaUtil: number
 
     + getPorcentajeReduccion(): number
     + getTiempoVidaUtil(): number
     + setTiempoVidaUtil(tiempo: number)
-    + esUtil():boolean
-    + getPorcentajeDeDisminucionTemperatura() : number
     - actualizarUtilidad()
     - restarUtilidad()
 }
 
-
-class TurbinaDeRefrigeracion implements IRefrigerable{
+class TurbinaDeRefrigeracion implements RefrigerableStrategy{
     - _porcentajeReduccion: number
     - _activo: boolean
 
     + activar()
     + desactivar()
     + getPorcentajeReduccion(): number
-    + esUtil():boolean
-    + getPorcentajeDeDisminucionTemperatura() : number
 }
 
 enum EstadoReactor{
