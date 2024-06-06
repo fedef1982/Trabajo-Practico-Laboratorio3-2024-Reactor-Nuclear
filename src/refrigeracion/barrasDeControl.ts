@@ -1,3 +1,4 @@
+import Reactor from "../reactor/reactor";
 import RefrigerableStrategy from "./refrigerableStrategy";
 
 export default class BarrasDeControl implements RefrigerableStrategy{
@@ -33,14 +34,8 @@ export default class BarrasDeControl implements RefrigerableStrategy{
         this._tiempoVidaUtil--;
     }
 
-    esUtil() : boolean{
-        if (this._tiempoVidaUtil === 0){
-            return false;
-        } 
-        return true;
-    }
 
-    enfriar() {
+    enfriar(reactor : Reactor) {
         //implementar
     }
 }
