@@ -1,21 +1,23 @@
 import {EstadoReactor} from "../enums/estadoReactor";
 import ICombustible from "./ICombustible";
 import IEstadoReactor from "./IEstadoReactor";
+import INucleo from "./INucleo";
 import ISensor from "./ISensor";
 
 
 export default class Reactor{
-    private _capacidad : number; //capacidad 700MW/h puede generar hasta 700MWe
+    private _capacidad : number;
     private _combustible : ICombustible;
     private _sensor : ISensor;
     private _estadoReactorManager : IEstadoReactor;
-    private _barrasDeControl : IBarraDeControl;
+    private _nucleo : INucleo;
 
-    constructor(sensor: ISensor, combustible : ICombustible, estadoManager : IEstadoReactor){
-        this._capacidad = 700;
-        this._sensor = sensor;
+    constructor(capacidad : number, combustible : ICombustible, sensor : ISensor, estadoManager : IEstadoReactor, nucleo : INucleo){
+        this._capacidad = capacidad;
         this._combustible = combustible;
+        this._sensor = sensor;
         this._estadoReactorManager = estadoManager;
+        this._nucleo = nucleo;
     }
 
     public get capacidad() : number {
@@ -30,6 +32,21 @@ export default class Reactor{
         return  this._estadoReactorManager.estado;
     }
 
+    public set capacidad(capacidad : number){
+        this._capacidad = capacidad;
+    }
+    public set combustible(combustible : ICombustible){
+        this._combustible = combustible;
+    }
+    public set sensor(sensor : ISensor){
+        this._sensor = sensor;
+    }
+    public set estadoManager(estadoManager : IEstadoReactor){
+        this._estadoReactorManager = estadoManager;
+    }
+    public set nucleo(nucleo : INucleo){
+        this._nucleo = nucleo;
+    }
 
     //°---Métodos-------------->
 
@@ -40,29 +57,26 @@ export default class Reactor{
     }
 
     public detener() {
-        this._sensor.temperaturaReactor = 0;
-        this._estadoReactorManager.actualizarEstado(this._sensor.temperaturaReactor);
-
+        this._sensor.temperaturaReactor = 1;
     }
 
     public disminuirEnergia(porcentajeReduccion : number) {//baja la temperatura
+        let temperatura = this._sensor.getTemperaturaReactor;
 
-        this._sensor.temperaturaReactor -= 
-        (this._sensor.temperaturaReactor * porcentajeReduccion / 100);
+        temperatura -= ((temperatura * porcentajeReduccion) / 100);
 
-        this._estadoReactorManager.actualizarEstado(this._sensor.temperaturaReactor);
+        this._sensor.temperaturaReactor = temperatura;
     }
 
     private generarEnergia() {
-
         let temperatura : number = this._sensor.getTemperaturaReactor;
 
         temperatura += temperatura * (this._combustible.porcentajeAumentoTemperatura / 100);
         this._sensor.temperaturaReactor = temperatura;
 
-        this._combustible.cantidadCombustible -= 1;
-        this._estadoReactorManager.actualizarEstado(this._sensor.getTemperaturaReactor);
+        let combustibleActual = this._combustible.getCantidadCombustible;
 
+        this._combustible.cantidadCombustible = combustibleActual - 1;
     }
 
 }
