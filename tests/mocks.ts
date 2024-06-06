@@ -1,4 +1,6 @@
 import { EstadoReactor } from "../src/enums/estadoReactor";
+import ICombustible from "../src/reactor/ICombustible";
+import INucleo from "../src/reactor/INucleo";
 
 export const MockSensor = {
     _temperaturaReactor : 1,
@@ -31,3 +33,8 @@ export const MockCombustible = {
         return this._porcentajeAumento;
     }
 };
+
+export const MockNucleo : INucleo = {
+    insertarBarraDeControl: jest.fn(),
+    obtenerBarraDeControl: jest.fn()
+}
