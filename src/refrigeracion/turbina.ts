@@ -1,3 +1,4 @@
+import Reactor from "../reactor/reactor";
 import RefrigerableStrategy from "./refrigerableStrategy";
 
 export default class Turbina implements RefrigerableStrategy{
@@ -24,11 +25,8 @@ export default class Turbina implements RefrigerableStrategy{
         return this._porcentajeReduccion;
     }
     
-    esUtil(): boolean {
-        return this._activo;
-    }
 
-    enfriar() {
+    enfriar(reactor : Reactor) {
         //implementar
     }
 }
