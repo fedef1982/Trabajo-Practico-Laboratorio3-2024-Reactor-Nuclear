@@ -1,6 +1,4 @@
-import RefrigerableStrategy from "./refrigerableStrategy";
-
-export default class BarrasDeControl implements RefrigerableStrategy{
+export default class BarrasDeControl{
     private _porcentajeReduccion : number;
     private _tiempoVidaUtil : number;
 
@@ -21,6 +19,7 @@ export default class BarrasDeControl implements RefrigerableStrategy{
     }    
 
     public get porcentajeReduccion() : number {
+        this.actualizarUtilidad();
         return this._porcentajeReduccion;
     }
 
@@ -31,16 +30,5 @@ export default class BarrasDeControl implements RefrigerableStrategy{
 
     private restarVidaUtil () : void{
         this._tiempoVidaUtil--;
-    }
-
-    esUtil() : boolean{
-        if (this._tiempoVidaUtil === 0){
-            return false;
-        } 
-        return true;
-    }
-
-    enfriar() {
-        //implementar
     }
 }
