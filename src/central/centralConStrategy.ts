@@ -19,7 +19,9 @@ export default class CentralConStrategy {
         this._strategy = strategy;
     }
 
-
+    public activarMecanismoDeEnfriamiento(){
+        this._strategy.enfriar();
+    }
 
     //public agregarRefrigerante(refrigerante : RefrigerableStrategy){
 
