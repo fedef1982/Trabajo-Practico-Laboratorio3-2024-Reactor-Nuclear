@@ -1,5 +1,6 @@
+import Reactor from "../reactor/reactor";
+
 export default interface RefrigerableStrategy{
     
-    esUtil() : boolean;
-    enfriar() : void;
+    enfriar(reactor : Reactor) : void;
 }
