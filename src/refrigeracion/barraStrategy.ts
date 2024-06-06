@@ -42,7 +42,8 @@ export default class BarrasStrategy implements RefrigerableStrategy{
             while (estadoReactor != EstadoReactor.NORMAL && this.esUtil(barra)) {
                 reactor.disminuirEnergia(barra.porcentajeReduccion);
                 estadoReactor = reactor.estadoReactor;
-            }                
+            }
+            this._barrasUsadas++;                
         });
         if(estadoReactor != EstadoReactor.NORMAL){
             throw new Error("El estado del reactor no fue normalizado, apagarlo inmediatamente");
