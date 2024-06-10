@@ -1,5 +1,4 @@
 import BarrasDeControl from "../refrigeracion/barrasDeControl";
-import INucleo from "./INucleo";
 import ISensor from "./ISensor";
 import Sensor from "./sensor";
 
