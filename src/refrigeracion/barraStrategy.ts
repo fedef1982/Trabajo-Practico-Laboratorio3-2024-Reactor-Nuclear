@@ -1,7 +1,8 @@
 import BarrasDeControl from "./barrasDeControl";
 import RefrigerableStrategy from "./refrigerableStrategy";
 import Reactor from "../reactor/reactor";
-import { EstadoReactor } from "../enums/estadoReactor";
+//falta crear los direcctorios
+import EstadoReactor from "../src/estadosReactor/EstadoReactor";
 
 export default class BarrasStrategy implements RefrigerableStrategy{
     private _barras : BarrasDeControl[];
