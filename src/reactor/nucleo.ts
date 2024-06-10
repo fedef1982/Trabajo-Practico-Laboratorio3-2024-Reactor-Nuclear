@@ -1,20 +1,42 @@
 import BarrasDeControl from "../refrigeracion/barrasDeControl";
 import INucleo from "./INucleo";
+import ISensor from "./ISensor";
+import Sensor from "./sensor";
 
-export default class Nucleo implements INucleo{
-    private _barrasDeControl : BarrasDeControl[];
+export default class Nucleo {
+    private _barraDeControl : BarrasDeControl;
+    private _temperatura : number;
+    private _sensor : ISensor;
 
-    constructor(barras? : BarrasDeControl[]){
-        this._barrasDeControl = barras ?? [];
+    constructor(barras? : BarrasDeControl, sensor? : ISensor){
+        this._barraDeControl = barras ?? new BarrasDeControl(-1);
+        this._sensor = sensor ?? new Sensor();
+        this._temperatura = -1;
+    }
+
+    public get temperatura() : number {
+        return this._temperatura;
+    }
+
+    public set temperatura(temperatura : number) {
+        this._temperatura = temperatura;
+    }
+
+    public get sensor() : ISensor {
+        return this._sensor;
+    }
+
+    public set sensor(sensor : ISensor) {
+        this._sensor = sensor;
     }
 
     insertarBarraDeControl(barra: BarrasDeControl) {
-        this._barrasDeControl.push(barra);
+        this._barraDeControl = barra;
     }
 
-    obtenerBarraDeControl(): BarrasDeControl[] {
-        const barra = this._barrasDeControl;
-        this._barrasDeControl.splice(0, this._barrasDeControl.length);
-        return barra;
+    sacarBarraDeControl(): void {
+        this._barraDeControl.tiempoVidaUtil = 0;
+       
     }
+
 }
