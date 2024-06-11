@@ -16,7 +16,7 @@ export default class EstadoReactorDisminuido extends EstadoReactor{
     public generarEnergia(): void {
        // implementar con nick, no se que calculo
        //enviar alerta a operarios
-
+        this.notificarEstado(new EstadoReactorDisminuido(this._reactor));
        //el generador genera energia y guarda la enrgia generada
        this._reactor.generador.generarEnergia();
 
