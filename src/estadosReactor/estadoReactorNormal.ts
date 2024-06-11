@@ -39,8 +39,7 @@ export default class EstadoReactorNormal extends EstadoReactor{
         }
 
         if(this._reactor.sensor.getTemperaturaReactor > 330){
-            let disminuido = new EstadoReactorDisminuido(this._reactor);
-            this.actualizarEstado(disminuido);
+            this.actualizarEstado(new EstadoReactorDisminuido(this._reactor));
         }
     }
 
