@@ -9,7 +9,7 @@ export default class EstadoReactorCritico extends EstadoReactor{
 
 
     public actualizarEstado(estado: EstadoReactor): void {
-        super.actualizarEstado(estado);
+        this._reactor.estado = estado;
     }
 
     public generarEnergia(): void {
