@@ -8,9 +8,9 @@ export default class EstadoReactorNormal extends EstadoReactor{
         super(reactor);
     }
 
-   public actualizarEstado(estado: EstadoReactor): void {
-       super.actualizarEstado(estado);
-   }
+    public actualizarEstado(estado: EstadoReactor): void {
+        this._reactor.estado = estado;
+    }
 
     public generarEnergia(): void {
 
