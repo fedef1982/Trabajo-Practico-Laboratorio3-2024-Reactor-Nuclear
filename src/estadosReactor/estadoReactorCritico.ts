@@ -9,7 +9,15 @@ export default class EstadoReactorCritico extends EstadoReactor{
     constructor(reactor : Reactor){
         super(reactor);
     }
-
+    
+    public set suscriptor(suscriptor : ISuscriptorEstado) {
+        this._suscriptor = suscriptor;
+    }
+    
+    public get suscriptor() : ISuscriptorEstado {
+        return this._suscriptor;
+    }
+    
 
     public actualizarEstado(estado: EstadoReactor): void {
         this._reactor.estado = estado;
