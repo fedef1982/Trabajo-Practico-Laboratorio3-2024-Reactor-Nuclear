@@ -3,16 +3,17 @@ import EstadoReactor from "./estadoReactor";
 import EstadoReactorCritico from "./estadoReactorCritico";
 
 export default class EstadoReactorDisminuido extends EstadoReactor{
+    private _suscriptores: ISuscritorEstado;
     
     constructor(reactor : Reactor){
         super(reactor);
     }
 
-   public actualizarEstado(estado: EstadoReactor): void {
-       super.actualizarEstado(estado);
-   }
+    public actualizarEstado(estado: EstadoReactor): void {
+        this._reactor.estado = estado;
+    }
 
-   public generarEnergia(): void {
+    public generarEnergia(): void {
        // implementar con nick, no se que calculo
        //enviar alerta a operarios
 
@@ -22,9 +23,21 @@ export default class EstadoReactorDisminuido extends EstadoReactor{
        if(this._reactor.sensor.getTemperaturaReactor() >= 400){
 
         //si la temperatura supera 400 paso a critico
-           let critico = new EstadoReactorCritico(this._reactor);
-           this.actualizarEstado(critico);
+           this.actualizarEstado(new EstadoReactorCritico(this._reactor));
        }
-   }
+    }
 
+    public suscribir(suscriptor : ISuscriptorEstado) {
+        this._suscriptores.push(suscriptor);
+    }
+
+    public desuscribir(suscriptor : ISuscriptorEstado) {
+        this._suscriptores = this._suscriptores.filter(sus => sus !== suscriptor);
+    }
+    
+    public notificarEstado(estado : EstadoReactor){
+        this._suscriptores.forEach(suscriptor => {
+            suscriptor.recibirEstado(estado);
+        });
+    }
 }
