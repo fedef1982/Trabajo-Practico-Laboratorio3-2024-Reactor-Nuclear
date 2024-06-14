@@ -1,30 +1,35 @@
 import Reactor from "../reactor/reactor";
+import ISuscriptorEstado from "./ISuscriptorEstado";
 import EstadoReactor from "./estadoReactor";
 import EstadoReactorCritico from "./estadoReactorCritico";
 
 export default class EstadoReactorDisminuido extends EstadoReactor{
-    private _suscriptores: ISuscritorEstado;
-    
+    private _suscriptores : ISuscriptorEstado[];
+
     constructor(reactor : Reactor){
         super(reactor);
+        this._suscriptores = undefined as unknown as ISuscriptorEstado[];
     }
 
-    public actualizarEstado(estado: EstadoReactor): void {
-        this._reactor.estado = estado;
-    }
+    public generarEnergia(horasParaGenerarEnergia : number): void {
+        this.notificarEstado();
+        let temperaturaReactorActual : number = this._reactor.nucleo.sensor.getTemperaturaReactor;
+        let horasQueLlevaGenerando : number = 1;
+        
+        while (temperaturaReactorActual < 400 && horasQueLlevaGenerando <= horasParaGenerarEnergia) {
+            this._reactor.generador.generarEnergia(80, temperaturaReactorActual);
+            temperaturaReactorActual += 8;
 
-    public generarEnergia(): void {
-       // implementar con nick, no se que calculo
-       //enviar alerta a operarios
-        this.notificarEstado(new EstadoReactorDisminuido(this._reactor));
-       //el generador genera energia y guarda la enrgia generada
-       this._reactor.generador.generarEnergia();
+            this._reactor.nucleo.temperatura = temperaturaReactorActual;
+            horasQueLlevaGenerando++;
+            //genera energia y notifica al operador
+        }
 
-       if(this._reactor.sensor.getTemperaturaReactor() >= 400){
-
-        //si la temperatura supera 400 paso a critico
-           this.actualizarEstado(new EstadoReactorCritico(this._reactor));
-       }
+        if(this._reactor.nucleo.sensor.getTemperaturaReactor >= 400){
+            let estadoCritico : EstadoReactorCritico = new EstadoReactorCritico(this._reactor);
+            this.actualizarEstado(estadoCritico);
+            estadoCritico.situacionCritica();
+        }
     }
 
     public suscribir(suscriptor : ISuscriptorEstado) {
@@ -35,9 +40,9 @@ export default class EstadoReactorDisminuido extends EstadoReactor{
         this._suscriptores = this._suscriptores.filter(sus => sus !== suscriptor);
     }
     
-    public notificarEstado(estado : EstadoReactor){
+    public notificarEstado(){
         this._suscriptores.forEach(suscriptor => {
-            suscriptor.recibirEstado(estado);
+            suscriptor.recibirAlerta(this);
         });
     }
 }
