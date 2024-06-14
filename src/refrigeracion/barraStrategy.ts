@@ -2,7 +2,6 @@ import BarrasDeControl from "./barrasDeControl";
 import RefrigerableStrategy from "./refrigerableStrategy";
 import Reactor from "../reactor/reactor";
 import EstadoReactorNormal from "../estadosReactor/estadoReactorNormal";
-import EstadoReactorDisminuido from "../estadosReactor/estadoReactorDisminuido";
 import EstadoReactorCritico from "../estadosReactor/estadoReactorCritico";
 
 export default class BarrasStrategy implements RefrigerableStrategy{
