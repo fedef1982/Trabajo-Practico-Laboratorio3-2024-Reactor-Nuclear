@@ -7,6 +7,8 @@ export default abstract class EstadoReactor{
         this._reactor = reactor;
     }
 
-    public abstract generarEnergia() : void;
-    public abstract actualizarEstado(estado : EstadoReactor) : void;
+    public abstract generarEnergia(horasLimite : number) : void;
+    public actualizarEstado(estado : EstadoReactor) : void{
+        this._reactor.estado = estado;
+    }
 }
