@@ -9,7 +9,7 @@ export default class TurbinaStrategy implements RefrigerableStrategy{
         this._turbinas = turbinas ?? [];
     }
 
-    public disminuirEnergia(porcentajeReduccion : number, reactor : Reactor) {//baja la temperatura del nucleo
+    public disminuirTemperatura(porcentajeReduccion : number, reactor : Reactor) {//baja la temperatura del nucleo
         let temperatura = reactor.nucleo.temperatura;
 
         temperatura -= ((temperatura * porcentajeReduccion) / 100);
@@ -20,7 +20,7 @@ export default class TurbinaStrategy implements RefrigerableStrategy{
     enfriar(reactor : Reactor) {
         this._turbinas.forEach(turbina => {
             if (turbina.activo) {
-                this.disminuirEnergia(turbina.porcentajeReduccion, reactor);
+                this.disminuirTemperatura(turbina.porcentajeReduccion, reactor);
             }            
         });
     }
