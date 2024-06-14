@@ -1,4 +1,3 @@
-import { EstadosReactor } from "../enums/estadoReactor";
 import Reactor from "../reactor/reactor";
 import EstadoReactor from "./estadoReactor";
 
