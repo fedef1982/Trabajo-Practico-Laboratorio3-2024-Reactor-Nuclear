@@ -1,11 +1,10 @@
-import { estadosReactor } from "../constantes";
 import Reactor from "../reactor/reactor";
+import ISuscriptorEstado from "./ISuscriptorEstado";
 import EstadoReactor from "./estadoReactor";
-import EstadoReactorApagado from "./estadoReactorApagado";
 
 export default class EstadoReactorCritico extends EstadoReactor{
-    private _suscriptor : ISuscriptorEstado;
-    
+    private _suscriptor : ISuscriptorEstado = undefined as unknown as ISuscriptorEstado;
+
     constructor(reactor : Reactor){
         super(reactor);
     }
@@ -17,21 +16,18 @@ export default class EstadoReactorCritico extends EstadoReactor{
     public get suscriptor() : ISuscriptorEstado {
         return this._suscriptor;
     }
-    
-
-    public actualizarEstado(estado: EstadoReactor): void {
-        this._reactor.estado = estado;
-    }
 
     private notificarSrBurns() : void{
-        this._suscriptor.recibirEstado(new EstadoReactorApagado(this._reactor))
+        this._suscriptor.recibirAlerta(this);
     }
 
-    public generarEnergia(): void {
-        //pasar a estado apagado
-        this._reactor.detener();
+    public generarEnergia(horasLimite: number): void {
+        throw new Error("No se puede generar mas energia dentro de este estado");
+    }
+
+    public situacionCritica(): void {
         //enviar alerta sr burns
         this.notificarSrBurns();
+        this._reactor.detener();
     }
-
 }
