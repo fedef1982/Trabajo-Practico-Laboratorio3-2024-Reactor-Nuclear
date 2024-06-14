@@ -8,38 +8,27 @@ export default class EstadoReactorNormal extends EstadoReactor{
         super(reactor);
     }
 
-    public actualizarEstado(estado: EstadoReactor): void {
-        this._reactor.estado = estado;
+    public equals(estado : EstadoReactor) : boolean {
+        return estado instanceof EstadoReactorNormal;
     }
 
-    public generarEnergia(): void {
+    public generarEnergia(horasParaGenerarEnergia : number): void {
+        let temperaturaReactorActual : number = this._reactor.nucleo.sensor.getTemperaturaReactor;
+        let horasQueLlevaGenerando : number = 1;
 
-        //creo variable para tener la temperatura del reactor,hay que pedirle la temperatura al nucleo??
-        let temperaturaReactorActual : number = this._reactor.sensor.getTemperaturaReactor;
-
-        while(temperaturaReactorActual < 330){
-
-            //calcula la temperatura a aumentar
-            temperaturaReactorActual += temperaturaReactorActual * (this._reactor.combustible.porcentajeAumentoTemperatura / 100);
-            //seteo la temperatura al reactor, aca deberia ser al nucleo??
-            this._reactor.sensor.temperaturaReactor = temperaturaReactorActual;
-
-            //guardo en una variable la cant de combustible
-            let combustibleActual = this._reactor.combustible.getCantidadCombustible;
-    
-            //actualizo al reactor su combustible restandole 1
-            this._reactor.combustible.cantidadCombustible = combustibleActual - 1;
-
-            //actualizo la variable de temperatura del reactor, la cual uso para mi bucle while
-            temperaturaReactorActual = this._reactor.sensor.getTemperaturaReactor;
-
-            //el generador genera energia y guarda la enrgia generada
-            this._reactor.generador.generarEnergia();
-
+        while(temperaturaReactorActual < 330 && horasQueLlevaGenerando <= horasParaGenerarEnergia){
+            this._reactor.generador.generarEnergia(100, temperaturaReactorActual);
+            temperaturaReactorActual += 8;
+            
+            this._reactor.nucleo.temperatura = temperaturaReactorActual;
+            horasQueLlevaGenerando++;
         }
 
-        if(this._reactor.sensor.getTemperaturaReactor > 330){
+        let horasRestantes : number = horasParaGenerarEnergia - horasQueLlevaGenerando;
+        
+        if(this._reactor.nucleo.sensor.getTemperaturaReactor > 330){
             this.actualizarEstado(new EstadoReactorDisminuido(this._reactor));
+            this._reactor.estado.generarEnergia(horasRestantes);
         }
     }
 
