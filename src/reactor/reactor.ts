@@ -1,88 +1,80 @@
-import {EstadoReactor} from "../enums/estadoReactor";
+import EstadoReactor from "../estadosReactor/estadoReactor";
+import EstadoReactorApagado from "../estadosReactor/estadoReactorApagado";
+import EstadoReactorEncendido from "../estadosReactor/estadoReactorEncendidio";
 import ICombustible from "./ICombustible";
-import IEstadoReactor from "./IEstadoReactor";
-import Nucleo from "./nucleo";
+import INucleo from "./INucleo";
 
 
 export default class Reactor{
     private _capacidad : number;
     private _combustible : ICombustible;
     private _estado : EstadoReactor;
-    private _nucleo : Nucleo;
+    private _nucleo : INucleo;
+    private _generador : IGenerador;
+    private _energiaProducida : number;
 
-    constructor(capacidad : number, combustible : ICombustible,  nucleo : Nucleo){
+    constructor(capacidad : number, combustible : ICombustible,  nucleo : INucleo, generador : IGenerador){
         this._capacidad = capacidad;
         this._combustible = combustible;
-        this._estado = new EstadoReactorApagado();
         this._nucleo = nucleo;
+        this.estado = new EstadoReactorApagado();
+        this._energiaProducida = 0;
+        this._generador = generador;
     }
 
     public get capacidad() : number {
         return  this._capacidad;
     }
-
+    
+    public set capacidad(capacidad : number){
+        this._capacidad = capacidad;
+    }
 
     public get estado() : EstadoReactor {
         return  this._estado;
     }
 
-    public get nucleo() : Nucleo{
+    public set estado(estado : EstadoReactor) {
+        this._estado = estado;
+        this._estado.setReactor = this;
+    }
+
+    public get nucleo() : INucleo{
         return this._nucleo;
     }
 
-    public set capacidad(capacidad : number){
-        this._capacidad = capacidad;
+    public get combustible() : ICombustible {
+        return this._combustible;
     }
+    
     public set combustible(combustible : ICombustible){
         this._combustible = combustible;
     }
-   
-    /*
-    ---------SE VA--------------
-    public set estadoManager(estadoManager : IEstadoReactor){
-        this._estadoReactorManager = estadoManager;
+
+    public get energiaProducida() : number {
+        return this._energiaProducida;
     }
-    public set nucleo(nucleo : INucleo){
-        this._nucleo = nucleo;
-    }*/
+
+    public set energiaProducida(energiaProducida : number) {
+        this._energiaProducida = energiaProducida;
+    }
 
     //°---Métodos-------------->
 
-    public equals(object : EstadoReactor) : boolean {
-        return this._estado instanceof object;
+    public iniciar() {
+        this.energiaProducida = 0;
+        
+        this.estado = new EstadoReactorEncendido();
     }
 
-    public iniciar() {//comienza a generar energia hasta que se acabe el combustible
-        while(this._combustible.getCantidadCombustible > 0) {
-            this.generarEnergia();
-        }
-    }
-
-    /*
-    ------ MODIFICAR-----
+   
     public detener() {
-        this._sensor.temperaturaReactor = 1;
+        this.estado = new EstadoReactorApagado();
     }
 
     
-    -----------------SE VA----------
-    public disminuirEnergia(porcentajeReduccion : number) {//baja la temperatura
-        let temperatura = this._sensor.getTemperaturaReactor;
-
-        temperatura -= ((temperatura * porcentajeReduccion) / 100);
-
-        this._sensor.temperaturaReactor = temperatura;
-    }*/
-
-    private generarEnergia() {
-        let temperatura : number = this._sensor.getTemperaturaReactor;
-
-        temperatura += temperatura * (this._combustible.porcentajeAumentoTemperatura / 100);
-        this._sensor.temperaturaReactor = temperatura;
-
-        let combustibleActual = this._combustible.getCantidadCombustible;
-
-        this._combustible.cantidadCombustible = combustibleActual - 1;
+    public generarEnergia(horas : number) {
+        this.estado.generarEnergia(horas);
     }
 
 }
