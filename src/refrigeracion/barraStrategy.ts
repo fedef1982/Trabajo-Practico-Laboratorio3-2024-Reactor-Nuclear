@@ -1,8 +1,8 @@
 import BarrasDeControl from "./barrasDeControl";
 import RefrigerableStrategy from "./refrigerableStrategy";
 import Reactor from "../reactor/reactor";
-//falta crear los direcctorios
-import EstadoReactor from "../src/estadosReactor/EstadoReactor";
+import EstadoReactorNormal from "../estadosReactor/estadoReactorNormal";
+import EstadoReactorCritico from "../estadosReactor/estadoReactorCritico";
 
 export default class BarrasStrategy implements RefrigerableStrategy{
     private _barras : BarrasDeControl[];
@@ -15,6 +15,10 @@ export default class BarrasStrategy implements RefrigerableStrategy{
 
     public get barrasUsadas() : number {
         return this._barrasUsadas;
+    }
+
+    public get barras() : BarrasDeControl[]{
+        return this._barras;
     }
     
     private restablecerBarrasUsadas() {
@@ -35,59 +39,55 @@ export default class BarrasStrategy implements RefrigerableStrategy{
         return barra.tiempoVidaUtil > 0;
     }
 
-    public disminuirEnergia(porcentajeReduccion : number, reactor : Reactor) {//baja la temperatura del nucleo
+    public disminuirTemperatura(porcentajeReduccion : number, reactor : Reactor) {
         let temperatura = reactor.nucleo.temperatura;
 
         temperatura -= ((temperatura * porcentajeReduccion) / 100);
 
         reactor.nucleo.temperatura = temperatura;
+        if (reactor.nucleo.temperatura < 330) {
+            reactor.estado = new EstadoReactorNormal(reactor);
+        }
     }
     
     public limpiarBarraInutiles() {
-
-        let barrasInutilizables = this._barras.filter(inutiles => this.esUtil(inutiles) === false);
-        for (const iterator of barrasInutilizables) {
-            this.quitarBarra(iterator);
-        }
+        this._barras = this._barras.filter(util => this.esUtil(util));
     }
 
     enfriar(reactor : Reactor) : void{
 
-        //let estadoReactor = reactor.estado;
+        let estadoNormal = new EstadoReactorNormal(reactor);
         this.restablecerBarrasUsadas();
         //limpio barras que no sirven
         this.limpiarBarraInutiles();
         
-        this._barras.forEach(barra => {
-
-            while ((!reactor.equals(EstadoReactorNormal)) && this.esUtil(barra)) {
-                //insertar barra en nucleo
-                reactor.nucleo.insertarBarraDeControl(barra);
-                 //disminuir energia del nucleo
-                this.disminuirEnergia(barra.porcentajeReduccion, reactor);
-                
+        for (let i = 0; i < this._barras.length; i++) {
+            let barra = this._barras[i];
+            //insertar barra en nucleo
+            reactor.nucleo.insertarBarraDeControl(barra);
+    
+            while (!estadoNormal.equals(reactor.estado) && this.esUtil(barra)) {
+                //disminuir energia del nucleo
+                this.disminuirTemperatura(barra.porcentajeReduccion, reactor);
             }
 
-            if(!this.esUtil(barra)){
+            if (!this.esUtil(barra)) {
                 //si mi barra no es util la saco y uso otra
                 this._barrasUsadas++;      
                 reactor.nucleo.sacarBarraDeControl(); 
             }
-
-            if(reactor.equals(EstadoReactorNormal)){
+    
+            if (estadoNormal.equals(reactor.estado)) {
                 //si mi reactor esta normal, salgo del bucle
                 break;
             }
-                   
-        });
-
-
-        if(!reactor.equals(EstadoReactorNormal)){
-            throw new Error("El estado del reactor no fue normalizado, apagarlo inmediatamente");
+        }
+    
+        if (!estadoNormal.equals(reactor.estado)) {
+            const critico : EstadoReactorCritico = new EstadoReactorCritico(reactor);
+            critico.situacionCritica();
             //enviar alarma para apagarlo
             //no tengo mas barras y no pude normalizar el reactor
         }
     }
-
-    
 }
