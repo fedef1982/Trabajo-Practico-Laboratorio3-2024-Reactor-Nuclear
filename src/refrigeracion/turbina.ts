@@ -1,6 +1,4 @@
-import RefrigerableStrategy from "./refrigerableStrategy";
-
-export default class Turbina implements RefrigerableStrategy{
+export default class Turbina{
     private _porcentajeReduccion : number;
     private _activo : boolean;
     
@@ -11,6 +9,10 @@ export default class Turbina implements RefrigerableStrategy{
             this._porcentajeReduccion = porcentaje;
         }
     }
+
+    public get activo() : boolean {
+        return this._activo;
+    }    
 
     public activar(){
         this._activo = true;
@@ -24,11 +26,4 @@ export default class Turbina implements RefrigerableStrategy{
         return this._porcentajeReduccion;
     }
     
-    esUtil(): boolean {
-        return this._activo;
-    }
-
-    enfriar() {
-        //implementar
-    }
 }
