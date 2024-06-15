@@ -12,7 +12,8 @@ export default class Combustible implements ICombustible {
     public set cantidadCombustible(cantCombustible : number) {
         this._cantidadCombustible = cantCombustible;
     }
-    public get getCantidadCombustible() : number {
+
+    public get cantidadCombustible() : number {
         return this._cantidadCombustible;
     }
 

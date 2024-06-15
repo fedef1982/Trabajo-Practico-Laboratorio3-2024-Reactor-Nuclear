@@ -1,3 +1,3 @@
 export default interface ISuscriptorTemperatura {
-    actualizarEstado(temperatura : number) : void;
+    actualizar(temperatura : number) : void;
 }
