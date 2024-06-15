@@ -6,8 +6,8 @@ import EstadoReactorCritico from "./estadoReactorCritico";
 export default class EstadoReactorDisminuido extends EstadoReactor{
     private _suscriptores : ISuscriptorEstado[];
 
-    constructor(reactor : Reactor){
-        super(reactor);
+    constructor(){
+        super();
         this._suscriptores = undefined as unknown as ISuscriptorEstado[];
     }
 
@@ -26,8 +26,9 @@ export default class EstadoReactorDisminuido extends EstadoReactor{
         }
 
         if(this._reactor.nucleo.sensor.getTemperaturaReactor >= 400){
-            let estadoCritico : EstadoReactorCritico = new EstadoReactorCritico(this._reactor);
-            this.actualizarEstado(estadoCritico);
+            let estadoCritico : EstadoReactorCritico = new EstadoReactorCritico();
+
+            this._reactor.estado = estadoCritico;
             estadoCritico.situacionCritica();
         }
     }
