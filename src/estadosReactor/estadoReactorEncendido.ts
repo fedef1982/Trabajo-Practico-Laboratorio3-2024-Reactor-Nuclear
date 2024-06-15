@@ -4,13 +4,9 @@ import EstadoReactorNormal from "./estadoReactorNormal";
 
 export default class EstadoReactorEncendido extends EstadoReactor{
 
-    constructor(reactor : Reactor){
-        super(reactor);
-    }
-    
     private calentar() : void{
-        if (this._reactor.combustible.getCantidadCombustible > 0) {
-            const combustibleActual : number = this._reactor.combustible.getCantidadCombustible;
+        if (this._reactor.combustible.cantidadCombustible > 0) {
+            const combustibleActual : number = this._reactor.combustible.cantidadCombustible;
             this._reactor.combustible.cantidadCombustible = (combustibleActual - 1);
         }        
     }
@@ -33,7 +29,7 @@ export default class EstadoReactorEncendido extends EstadoReactor{
         let horasRestantes : number = horasParaGenerarEnergia - horasQueLlevaGenerando;
         //cuando se calento el reactor empiezo a generar energiar pasandolo a normal
         if(this._reactor.nucleo.sensor.getTemperaturaReactor >= 280 && this._reactor.nucleo.sensor.getTemperaturaReactor < 330){
-            this.actualizarEstado(new EstadoReactorNormal(this._reactor));
+            this._reactor.estado = new EstadoReactorNormal();
             this._reactor.estado.generarEnergia(horasRestantes);
         }
     }
