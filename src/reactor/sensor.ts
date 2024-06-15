@@ -29,7 +29,7 @@ export default class Sensor implements ISensor{
 
     private notificar() : void {
         this._suscriptores.forEach( (suscriptor) => {
-            suscriptor.actualizarEstado(this._temperaturaReactor);
+            suscriptor.actualizar(this._temperaturaReactor);
         })
     }
 
