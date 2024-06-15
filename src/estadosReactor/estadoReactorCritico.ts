@@ -5,10 +5,6 @@ import EstadoReactor from "./estadoReactor";
 export default class EstadoReactorCritico extends EstadoReactor{
     private _suscriptor : ISuscriptorEstado = undefined as unknown as ISuscriptorEstado;
 
-    constructor(reactor : Reactor){
-        super(reactor);
-    }
-    
     public set suscriptor(suscriptor : ISuscriptorEstado) {
         this._suscriptor = suscriptor;
     }
