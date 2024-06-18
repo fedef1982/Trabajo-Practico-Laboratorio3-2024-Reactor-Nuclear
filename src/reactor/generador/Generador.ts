@@ -25,11 +25,11 @@ export default class Generador implements IGenerador{
         return parseFloat(((14 * temperacturaNucleoRactor) - 3919.97).toFixed(2));
     }
 
-    private suscribir(suscriptor: ISuscriptorEnergiaNeta):void{
+    public suscribir(suscriptor: ISuscriptorEnergiaNeta):void{
         this._suscriptoresEnergiaNeta.push(suscriptor);
     }
 
-    private desuscribir(suscriptor: ISuscriptorEnergiaNeta):void{
+    public desuscribir(suscriptor: ISuscriptorEnergiaNeta):void{
         const indice = this._suscriptoresEnergiaNeta.indexOf(suscriptor);
         if (indice >= 0) {
           this._suscriptoresEnergiaNeta.splice(indice, 1);
