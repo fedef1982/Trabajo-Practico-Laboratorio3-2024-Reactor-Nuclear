@@ -1,12 +1,7 @@
-import Reactor from "../reactor/reactor";
 import EstadoReactor from "./estadoReactor";
 import EstadoReactorDisminuido from "./estadoReactorDisminuido";
 
 export default class EstadoReactorNormal extends EstadoReactor{
-
-    constructor(reactor : Reactor){
-        super(reactor);
-    }
 
     public equals(estado : EstadoReactor) : boolean {
         return estado instanceof EstadoReactorNormal;
@@ -27,7 +22,7 @@ export default class EstadoReactorNormal extends EstadoReactor{
         let horasRestantes : number = horasParaGenerarEnergia - horasQueLlevaGenerando;
         
         if(this._reactor.nucleo.sensor.getTemperaturaReactor > 330){
-            this.actualizarEstado(new EstadoReactorDisminuido(this._reactor));
+            this._reactor.estado = new EstadoReactorDisminuido();
             this._reactor.estado.generarEnergia(horasRestantes);
         }
     }
