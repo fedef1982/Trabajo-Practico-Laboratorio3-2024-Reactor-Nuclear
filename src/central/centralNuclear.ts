@@ -4,9 +4,9 @@ import RefrigerableStrategy from "../refrigeracion/refrigerableStrategy";
 
 export default class CentralConStrategy {
     
-    private _reactor : Reactor;
-    private _operadores : Operador[];
-    private _strategy : RefrigerableStrategy;
+    private _reactor : Reactor = undefined as unknown as Reactor;
+    private _operadores : Operador[] = [];
+    private _strategy : RefrigerableStrategy = undefined as unknown as RefrigerableStrategy;
   
 
     public set strategy(strategy : RefrigerableStrategy){
