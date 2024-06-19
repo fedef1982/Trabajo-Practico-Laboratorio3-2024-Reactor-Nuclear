@@ -1,34 +1,29 @@
-import IMostrable from "./IMostrable";
-import ValorEnergia from "./valorEnergia";
-import valorEnergiaProcucida from "./valorEnergiaProducida";
-import ValorTemperatura from "./valorTemperatura";
+import ISuscriptorTemperatura from "../reactor/ISuscriptorTemperatura";
+import ISuscriptorEnergiaNeta from "../reactor/generador/ISuscriptorEnegiaNeta";
+import Mostrable from "./mostrable";
 
-export default abstract class Tablero{
-    private _indicadores : IMostrable[];
-    private _temperaturas : number[];
+export default abstract class Tablero implements ISuscriptorEnergiaNeta, ISuscriptorTemperatura{
+    protected _energiaNeta: Mostrable;
+    protected _temperatura: Mostrable;
 
-    constructor(){
-        this._indicadores = [];
-        this._temperaturas = [];
+    constructor(energia: Mostrable, temperatura: Mostrable){
+        this._energiaNeta = energia;
+        this._temperatura = temperatura;
     }
-    
-    public actualizarIndicadores(sensor: Sensor){
-        this._indicadores = [];
-        let indicador: IMostrable;
-        indicador = new ValorTemperatura(); 
-        this._temperaturas.push(sensor.temperatura);
-        this._indicadores.push(indicador);
-        indicador = new ValorEnergia(); 
-        this._indicadores.push(indicador);
-        indicador = new valorEnergiaProcucida(this._temperaturas.length,this._temperaturas); 
-        this._indicadores.push(indicador);
+
+    public get energiaNeta(): Mostrable{return this._energiaNeta;}
+    public get temperatura(): Mostrable{return this._temperatura;}
+    public set energiaNeta(mostrable: Mostrable){this._energiaNeta = mostrable;}
+    public set temperatura(mostrable: Mostrable){this._temperatura = mostrable;}
+
+    public actualizarEnergiaNeta(energiaNeta: number): void {
+        this._energiaNeta.valor = energiaNeta;
         this.mostrarIndicadores();
     }
 
-    public agregarAlarma (alarma: IMostrable){
-        this._indicadores.push(alarma);
+    public actualizarTemperatura(temperatura: number): void {
+        this._temperatura.valor = temperatura;
         this.mostrarIndicadores();
     }
-
     abstract mostrarIndicadores():void;
 }
