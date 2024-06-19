@@ -37,6 +37,7 @@ export default class Reactor{
 
     public set estado(estado : EstadoReactor) {
         this._estado = estado;
+        this._estado.setReactor = this;
     }
 
     public get nucleo() : INucleo{
