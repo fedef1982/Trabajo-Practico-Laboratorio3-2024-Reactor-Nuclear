@@ -1,10 +1,10 @@
 import RefrigerableStrategy from "../refrigeracion/refrigerableStrategy";
 import Alerta from "../tablero/alerta";
 import CentralNuclear from "../central/centralNuclear";
-import ISuscriptorEstado from "../reactor/ISuscriptorEstado";
+import ISuscriptorEstadoDisminuido from "../estadosReactor/ISuscriptorEstadoDisminuido";
 import EstadoReactor from "../estadosReactor/estadoReactor";
 
-export default class Operador implements ISuscriptorEstado{
+export default class Operador implements ISuscriptorEstadoDisminuido{
     private _legajo : number;
     private _alerta : Alerta[];
     private _strategy : RefrigerableStrategy;
@@ -43,7 +43,7 @@ export default class Operador implements ISuscriptorEstado{
         if (this._alerta.length > 0) {
             this._alerta.length = 0;
             central.strategy = this._strategy;
-            central.activarMecanismoEnfriamiento();
+            central.activarMecanismoDeEnfriamiento();
         }
     }
 
