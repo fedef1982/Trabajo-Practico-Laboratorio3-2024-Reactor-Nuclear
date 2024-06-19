@@ -1,3 +1,3 @@
 export default interface IGenerador {
-    generarEnergia(porcentajeCapacidadProductiva: number, temperacturaNucleoRactor: number):void;
+    generarEnergia(porcentajeCapacidadProductiva: number, temperacturaNucleoRactor: number):number;
 }
