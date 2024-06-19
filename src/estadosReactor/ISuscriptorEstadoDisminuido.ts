@@ -1,5 +1,5 @@
 import EstadoReactor from "./estadoReactor";
 
 export default interface ISuscriptorEstadoDisminuido{
-    recibirAlerta(estado : EstadoReactor);
+    recibirAlerta(estado : EstadoReactor) : void;
 }
