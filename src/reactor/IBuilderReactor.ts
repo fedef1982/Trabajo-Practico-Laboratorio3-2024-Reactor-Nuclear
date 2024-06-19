@@ -1,6 +1,6 @@
 import ICombustible from "./ICombustible";
 import INucleo from "./INucleo";
-import IGenerador from "./IGenerador";
+import IGenerador from "./generador/Generador";
 
 export default interface IBuilderRactor {
     setCapacidad(capacidad : number) : void;
