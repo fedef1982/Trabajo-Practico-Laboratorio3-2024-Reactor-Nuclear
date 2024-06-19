@@ -1,4 +1,4 @@
-import EstadoReactor from "../estadoReactor/estadoReactor";
+import EstadoReactor from "../estadosReactor/estadoReactor";
 
 export default class Alerta{
     private _estado : EstadoReactor;
