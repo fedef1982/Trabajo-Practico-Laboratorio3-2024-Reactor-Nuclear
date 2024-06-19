@@ -1,14 +1,15 @@
 import EstadoReactor from "../estadosReactor/estadoReactor";
 import EstadoReactorApagado from "../estadosReactor/estadoReactorApagado";
-import EstadoReactorEncendido from "../estadosReactor/estadoReactorEncendidio";
+import EstadoReactorEncendido from "../estadosReactor/estadoReactorEncendido";
 import ICombustible from "./ICombustible";
 import INucleo from "./INucleo";
+import IGenerador from "./generador/IGenerador";
 
 
 export default class Reactor{
     private _capacidad : number;
     private _combustible : ICombustible;
-    private _estado : EstadoReactor;
+    private _estado : EstadoReactor = undefined as unknown as EstadoReactor;
     private _nucleo : INucleo;
     private _generador : IGenerador;
     private _energiaProducida : number;
@@ -36,7 +37,6 @@ export default class Reactor{
 
     public set estado(estado : EstadoReactor) {
         this._estado = estado;
-        this._estado.setReactor = this;
     }
 
     public get nucleo() : INucleo{
@@ -57,6 +57,10 @@ export default class Reactor{
 
     public set energiaProducida(energiaProducida : number) {
         this._energiaProducida = energiaProducida;
+    }
+
+    public get generador() : IGenerador {
+        return this._generador;
     }
 
     //°---Métodos-------------->
