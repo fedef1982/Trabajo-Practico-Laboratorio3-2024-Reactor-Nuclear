@@ -11,7 +11,7 @@ export default class EstadoReactorCritico extends EstadoReactor{
         this._suscriptores.push(SrBurns.getInstance());
     }
 
-    public suscriptor(suscriptor : ISuscriptorEstadoApagado) {
+    public suscribir(suscriptor : ISuscriptorEstadoApagado) {
         this._suscriptores.push(suscriptor);
     }
     
