@@ -43,5 +43,9 @@ export const newBuilder = {
 export const mockBarrasDeControl = {
     tiempoVidaUtil: -1,
 } as any;
+
+export const mockEstadoReactorEncendido = {
+    generarEnergia: jest.fn(),
+} as any;
   
 
