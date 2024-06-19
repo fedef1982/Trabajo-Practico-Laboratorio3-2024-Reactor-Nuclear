@@ -1,16 +1,11 @@
 import Operador from "../operador/operador";
 import Reactor from "../reactor/reactor";
 import RefrigerableStrategy from "../refrigeracion/refrigerableStrategy";
-import Alerta from "../tablero/alerta";
-import Tablero from "../tablero/tablero";
 
 export default class CentralConStrategy {
     
     private _reactor : Reactor;
     private _operadores : Operador[];
-    private _cantidadDeBarrasConsumidas : number;
-    private _alarma : Alerta;
-    private _tablero : Tablero;
     private _strategy : RefrigerableStrategy;
   
 
