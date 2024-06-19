@@ -1,8 +1,16 @@
 import BarrasDeControl from "../refrigeracion/barrasDeControl";
+import ISensor from "./ISensor";
 
 export default interface INucleo{
-    insertarBarraDeControl(barra : BarrasDeControl) : any;
-    obtenerBarraDeControl() : BarrasDeControl;
+    set temperatura(temperatura : number);
+    
+    get temperatura() : number;
 
-    //------------SE VA-----------
+    set sensor(sensor : ISensor);
+    
+    get sensor() : ISensor;
+
+    insertarBarraDeControl(barra : BarrasDeControl) : any;
+    
+    sacarBarraDeControl() : void;
 }

@@ -1,8 +1,9 @@
 import BarrasDeControl from "../refrigeracion/barrasDeControl";
 import ISensor from "./ISensor";
 import Sensor from "./sensor";
+import INucleo from "./INucleo";
 
-export default class Nucleo {
+export default class Nucleo implements INucleo{
     private _barraDeControl : BarrasDeControl;
     private _temperatura : number;
     private _sensor : ISensor;
@@ -13,19 +14,20 @@ export default class Nucleo {
         this._temperatura = -1;
     }
 
-    public get temperatura() : number {
+    get temperatura() : number {
         return this._temperatura;
     }
 
-    public set temperatura(temperatura : number) {
+    set temperatura(temperatura : number) {
         this._temperatura = temperatura;
+        this._sensor.temperaturaReactor = temperatura;
     }
 
-    public get sensor() : ISensor {
+    get sensor() : ISensor {
         return this._sensor;
     }
 
-    public set sensor(sensor : ISensor) {
+    set sensor(sensor : ISensor) {
         this._sensor = sensor;
     }
 
@@ -35,7 +37,6 @@ export default class Nucleo {
 
     sacarBarraDeControl(): void {
         this._barraDeControl.tiempoVidaUtil = 0;
-       
     }
 
 }
