@@ -1,14 +1,13 @@
-import Reactor from "../reactor/reactor";
-import ISuscriptorEstado from "./ISuscriptorEstado";
+import ISuscriptorEstadoDisminuido from "./ISuscriptorEstadoDisminuido";
 import EstadoReactor from "./estadoReactor";
 import EstadoReactorCritico from "./estadoReactorCritico";
 
 export default class EstadoReactorDisminuido extends EstadoReactor{
-    private _suscriptores : ISuscriptorEstado[];
+    private _suscriptores : ISuscriptorEstadoDisminuido[];
 
-    constructor(reactor : Reactor){
-        super(reactor);
-        this._suscriptores = undefined as unknown as ISuscriptorEstado[];
+    constructor(){
+        super();
+        this._suscriptores = undefined as unknown as ISuscriptorEstadoDisminuido[];
     }
 
     public generarEnergia(horasParaGenerarEnergia : number): void {
@@ -26,17 +25,18 @@ export default class EstadoReactorDisminuido extends EstadoReactor{
         }
 
         if(this._reactor.nucleo.sensor.getTemperaturaReactor >= 400){
-            let estadoCritico : EstadoReactorCritico = new EstadoReactorCritico(this._reactor);
-            this.actualizarEstado(estadoCritico);
+            let estadoCritico : EstadoReactorCritico = new EstadoReactorCritico();
+
+            this._reactor.estado = estadoCritico;
             estadoCritico.situacionCritica();
         }
     }
 
-    public suscribir(suscriptor : ISuscriptorEstado) {
+    public suscribir(suscriptor : ISuscriptorEstadoDisminuido) {
         this._suscriptores.push(suscriptor);
     }
 
-    public desuscribir(suscriptor : ISuscriptorEstado) {
+    public desuscribir(suscriptor : ISuscriptorEstadoDisminuido) {
         this._suscriptores = this._suscriptores.filter(sus => sus !== suscriptor);
     }
     
