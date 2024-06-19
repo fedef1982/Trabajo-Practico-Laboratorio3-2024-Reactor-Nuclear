@@ -5,7 +5,7 @@ export const mockCombustible = {
 }as any;
 
 export const mockSensor = {
-    getTemperaturaReactor : jest.fn().mockResolvedValue(100),
+    getTemperaturaReactor : jest.fn().mockReturnValue(100),
 }as any;
 
 export const mockNucleo = {
@@ -39,3 +39,9 @@ export const newBuilder = {
     setNucleo: jest.fn(),
     setGenerador: jest.fn(),
 } as any;
+
+export const mockBarrasDeControl = {
+    tiempoVidaUtil: -1,
+} as any;
+  
+
