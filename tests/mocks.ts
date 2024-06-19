@@ -25,3 +25,17 @@ export const mockReactor = {
 export const mockSuscriptor = {
     actualizarTemperatura: jest.fn(),
 } as any;
+
+export const mockBuilder = {
+    setCapacidad: jest.fn(),
+    setCombustible: jest.fn(),
+    setNucleo: jest.fn(),
+    setGenerador: jest.fn(),
+} as any;
+
+export const newBuilder = {
+    setCapacidad: jest.fn(),
+    setCombustible: jest.fn(),
+    setNucleo: jest.fn(),
+    setGenerador: jest.fn(),
+} as any;
