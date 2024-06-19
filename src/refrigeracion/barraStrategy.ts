@@ -46,7 +46,7 @@ export default class BarrasStrategy implements RefrigerableStrategy{
 
         reactor.nucleo.temperatura = temperatura;
         if (reactor.nucleo.temperatura < 330) {
-            reactor.estado = new EstadoReactorNormal(reactor);
+            reactor.estado = new EstadoReactorNormal();
         }
     }
     
@@ -56,7 +56,7 @@ export default class BarrasStrategy implements RefrigerableStrategy{
 
     enfriar(reactor : Reactor) : void{
 
-        let estadoNormal = new EstadoReactorNormal(reactor);
+        let estadoNormal = new EstadoReactorNormal();
         this.restablecerBarrasUsadas();
         //limpio barras que no sirven
         this.limpiarBarraInutiles();
@@ -84,7 +84,7 @@ export default class BarrasStrategy implements RefrigerableStrategy{
         }
     
         if (!estadoNormal.equals(reactor.estado)) {
-            const critico : EstadoReactorCritico = new EstadoReactorCritico(reactor);
+            const critico : EstadoReactorCritico = new EstadoReactorCritico();
             critico.situacionCritica();
             //enviar alarma para apagarlo
             //no tengo mas barras y no pude normalizar el reactor
