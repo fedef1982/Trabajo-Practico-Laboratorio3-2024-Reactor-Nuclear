@@ -1,7 +1,7 @@
 import IBuilderRactor from "./IBuilderReactor";
 import ICombustible from "./ICombustible";
 import INucleo from "./INucleo";
-import IGenerador from "./IGenerador";
+import IGenerador from "./generador/Generador";
 import Reactor from "./reactor";
 
 

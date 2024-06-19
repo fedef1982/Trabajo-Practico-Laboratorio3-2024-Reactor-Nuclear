@@ -5,6 +5,10 @@ import EstadoReactorApagado from "./estadoReactorApagado";
 export default class EstadoReactorCritico extends EstadoReactor{
     private _suscriptor : ISuscriptorEstadoApagado = undefined as unknown as ISuscriptorEstadoApagado;
 
+    constructor() {
+        super();
+    }
+
     public set suscriptor(suscriptor : ISuscriptorEstadoApagado) {
         this._suscriptor = suscriptor;
     }
