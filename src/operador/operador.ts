@@ -6,8 +6,8 @@ import EstadoReactor from "../estadosReactor/estadoReactor";
 
 export default class Operador implements ISuscriptorEstadoDisminuido{
     private _legajo : number;
-    private _alerta : Alerta[];
-    private _strategy : RefrigerableStrategy;
+    private _alerta : Alerta[] = [];
+    private _strategy : RefrigerableStrategy = undefined as unknown as RefrigerableStrategy;
 
     constructor();
     constructor(legajo : number);

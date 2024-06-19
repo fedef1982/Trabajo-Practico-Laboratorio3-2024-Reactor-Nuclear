@@ -10,7 +10,7 @@ export default interface INucleo{
     
     get sensor() : ISensor;
 
-    insertarBarraDeControl(barra : BarrasDeControl) : any;
+    insertarBarraDeControl(barra : BarrasDeControl) : void;
     
     sacarBarraDeControl() : void;
 }
