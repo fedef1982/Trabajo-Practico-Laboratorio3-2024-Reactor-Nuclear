@@ -16,12 +16,12 @@ describe('Sensor', () => {
   });
 
   it('debería inicializar con la temperatura correcta', () => {
-    expect(instance.getTemperaturaReactor).toBe(1);
+    expect(instance.getTemperaturaNucleo).toBe(1);
   });
 
   it('debería permitir suscribir suscriptores', () => {
     instance.suscribir(mockSuscriptor);
-    instance.temperaturaReactor = 100;
+    instance.temperaturaNucleo = 100;
 
     expect(mockSuscriptor.actualizarTemperatura).toHaveBeenCalledWith(100);
   });
@@ -29,7 +29,7 @@ describe('Sensor', () => {
   it('debería permitir desuscribir suscriptores', () => {
     instance.suscribir(mockSuscriptor);
     instance.desuscribir(mockSuscriptor);
-    instance.temperaturaReactor = 100;
+    instance.temperaturaNucleo = 100;
 
     expect(mockSuscriptor.actualizarTemperatura).not.toHaveBeenCalled();
   });
@@ -41,14 +41,14 @@ describe('Sensor', () => {
 
     instance.suscribir(mockSuscriptor);
     instance.suscribir(anotherMockSuscriptor);
-    instance.temperaturaReactor = 200;
+    instance.temperaturaNucleo = 200;
 
     expect(mockSuscriptor.actualizarTemperatura).toHaveBeenCalledWith(200);
     expect(anotherMockSuscriptor.actualizarTemperatura).toHaveBeenCalledWith(200);
   });
 
   it('debería actualizar la temperatura correctamente', () => {
-    instance.temperaturaReactor = 150;
-    expect(instance.getTemperaturaReactor).toBe(150);
+    instance.temperaturaNucleo = 150;
+    expect(instance.getTemperaturaNucleo).toBe(150);
   });
 });
