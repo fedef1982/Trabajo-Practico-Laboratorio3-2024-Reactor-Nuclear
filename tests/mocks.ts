@@ -1,4 +1,12 @@
 // Mocking the dependencies
+
+export const mockTurbina = {
+    
+    porcentajeReduccion : jest.fn(),
+    activo : jest.fn(),
+
+}as any;
+
 export const mockCombustible = {
     cantidadCombustible : 97,
     porcentajeAumentoTemperatura : jest.fn().mockReturnValue(0.2),
