@@ -20,7 +20,7 @@ export default class Nucleo implements INucleo{
 
     set temperatura(temperatura : number) {
         this._temperatura = temperatura;
-        this._sensor.temperaturaReactor = temperatura;
+        this._sensor.temperaturaNucleo = temperatura;
     }
 
     get sensor() : ISensor {

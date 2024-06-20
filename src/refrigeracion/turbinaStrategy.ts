@@ -10,7 +10,7 @@ export default class TurbinaStrategy implements RefrigerableStrategy{
     }
 
     public disminuirTemperatura(porcentajeReduccion : number, reactor : Reactor) {//baja la temperatura del nucleo
-        let temperatura = reactor.nucleo.temperatura;
+        let temperatura = reactor.nucleo.sensor.getTemperaturaNucleo;
 
         temperatura -= ((temperatura * porcentajeReduccion) / 100);
 

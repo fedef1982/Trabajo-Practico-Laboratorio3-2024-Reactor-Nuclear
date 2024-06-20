@@ -2,21 +2,21 @@ import ISensor from "./ISensor";
 import ISuscriptorTemperatura from "./ISuscriptorTemperatura";
 
 export default class Sensor implements ISensor{
-    private _temperaturaReactor : number;
+    private _temperaturaNucleo : number;
     private _suscriptores : ISuscriptorTemperatura[];
 
     constructor() {
-        this._temperaturaReactor = 1;//temperatura inicial
+        this._temperaturaNucleo = 1;//temperatura inicial
         this._suscriptores = [];
     }
 
-    public set temperaturaReactor(temperatura : number) {
-        this._temperaturaReactor = temperatura;
+    public set temperaturaNucleo(temperatura : number) {
+        this._temperaturaNucleo = temperatura;
         this.notificar();
     }
     
-    public get getTemperaturaReactor () : number {
-        return this._temperaturaReactor;
+    public get getTemperaturaNucleo () : number {
+        return this._temperaturaNucleo;
     }
 
     public suscribir(suscriptor : ISuscriptorTemperatura) {
@@ -29,7 +29,7 @@ export default class Sensor implements ISensor{
 
     private notificar() : void {
         this._suscriptores.forEach( (suscriptor) => {
-            suscriptor.actualizarTemperatura(this._temperaturaReactor);
+            suscriptor.actualizarTemperatura(this._temperaturaNucleo);
         })
     }
 
