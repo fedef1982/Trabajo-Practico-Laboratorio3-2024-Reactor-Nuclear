@@ -27,7 +27,7 @@ describe('Testeo la clase Nucleo', () => {
     const nuevaTemperatura = 100;
     instance.temperatura = nuevaTemperatura;
     expect(instance.temperatura).toBe(nuevaTemperatura);
-    expect(mockSensor.temperaturaReactor).toBe(nuevaTemperatura);
+    expect(mockSensor.temperaturaNucleo).toBe(nuevaTemperatura);
   });
 
   it('debería insertar una nueva barra de control', () => {
@@ -42,7 +42,7 @@ describe('Testeo la clase Nucleo', () => {
   });
 
   it('debería obtener y configurar el sensor correctamente', () => {
-    const nuevoSensor = { getTemperaturaReactor : 100 } as Sensor;
+    const nuevoSensor = { getTemperaturaNucleo : 100 } as Sensor;
     instance.sensor = nuevoSensor;
     expect(instance.sensor).toBe(nuevoSensor);
   });
