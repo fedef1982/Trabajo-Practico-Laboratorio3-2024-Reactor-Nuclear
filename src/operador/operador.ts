@@ -8,17 +8,24 @@ export default class Operador implements ISuscriptorEstadoDisminuido{
     private _legajo : number;
     private _alerta : Alerta[] = [];
     private _strategy : RefrigerableStrategy = undefined as unknown as RefrigerableStrategy;
+    private _central : CentralNuclear = undefined as unknown as CentralNuclear;
 
     constructor();
     constructor(legajo : number);
     constructor(legajo? : number){
         this._legajo = legajo ?? -1;
-        if(legajo != undefined){
-            this._legajo = legajo;
-        }
     }
 
     //geters y setters
+
+    public set central(centralNuclear : CentralNuclear){
+        this._central = centralNuclear;
+    }
+
+    public get central() : CentralNuclear{
+        return this._central ;
+    }
+
     public get legajo() : number {
         return this._legajo;
     }
