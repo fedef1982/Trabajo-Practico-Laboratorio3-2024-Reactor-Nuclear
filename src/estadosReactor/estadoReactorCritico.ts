@@ -4,7 +4,7 @@ import EstadoReactor from "./estadoReactor";
 import EstadoReactorApagado from "./estadoReactorApagado";
 
 export default class EstadoReactorCritico extends EstadoReactor{
-    private _suscriptores : ISuscriptorEstadoApagado[] = undefined as unknown as ISuscriptorEstadoApagado[];
+    private _suscriptores: ISuscriptorEstadoApagado[] = [];
 
     constructor() {
         super();
