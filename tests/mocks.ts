@@ -13,11 +13,15 @@ export const mockCombustible = {
 }as any;
 
 export const mockSensor = {
-    getTemperaturaReactor : jest.fn().mockReturnValue(100),
+    getTemperaturaNucleo : jest.fn().mockReturnValue(100),
+
+
 }as any;
 
 export const mockNucleo = {
     sensor : mockSensor,
+    //temperatura : jest.fn(),
+    temperatura : jest.fn().mockReturnValue(100),
 }as any;
 
 export const mockGenerador = {
