@@ -1,4 +1,4 @@
 export default interface ISensor {
-    set temperaturaReactor(temperatura : number);
-    get getTemperaturaReactor () : number;
+    set temperaturaNucleo(temperatura : number);
+    get getTemperaturaNucleo () : number;
 }
