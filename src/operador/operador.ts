@@ -46,18 +46,17 @@ export default class Operador implements ISuscriptorEstadoDisminuido{
         this._strategy = strategy;
     }
     //Mejorar este metodo y posiblemente agregar otro mas para que agrupe tanto recibir alerta y este.
-    public activarProtocoloDeEnfriamiento(central : CentralNuclear){
-        if (this._alerta.length > 0) {
-            this._alerta.length = 0;
-            central.strategy = this._strategy;
-            central.activarMecanismoDeEnfriamiento();
-        }
+    public activarProtocoloDeEnfriamiento(){
+        this._central.strategy = this._strategy;
+        this._central.activarMecanismoDeEnfriamiento();
+        
     }
 
     recibirAlerta(estado : EstadoReactor){
         let alerta = new Alerta();
         alerta.estado = estado;
         this._alerta.push(alerta);
+        this.activarProtocoloDeEnfriamiento();
     }
     
 }
