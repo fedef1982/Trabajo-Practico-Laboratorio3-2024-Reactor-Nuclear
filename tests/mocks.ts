@@ -2,8 +2,10 @@
 
 export const mockTurbina = {
     
-    porcentajeReduccion : jest.fn(),
-    activo : jest.fn(),
+    porcentajeReduccion : 10,
+    activo : true,
+    desactivar : jest.fn(),
+    activar : jest.fn(),
 
 }as any;
 
@@ -13,17 +15,32 @@ export const mockCombustible = {
 }as any;
 
 export const mockSensor = {
-    getTemperaturaReactor : jest.fn().mockReturnValue(100),
+    getTemperaturaNucleo : jest.fn().mockReturnValue(100),
+    
+
 }as any;
 
 export const mockNucleo = {
     sensor : mockSensor,
+    //temperatura : jest.fn(),
+    temperatura : jest.fn().mockReturnValue(100),
 }as any;
+
+export const mockNucleo2 = {
+    sensor: {
+        getTemperaturaNucleo: 100,
+    },
+    temperatura: 100,
+} as any;
 
 export const mockGenerador = {
     
 }as any;
 
+export const mockReactor2 = {
+    nucleo : mockNucleo2,
+    combustible : mockCombustible,
+} as any;
 
 export const mockReactor = {
     nucleo : mockNucleo,
