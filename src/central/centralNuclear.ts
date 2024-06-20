@@ -3,7 +3,7 @@ import Reactor from "../reactor/reactor";
 import RefrigerableStrategy from "../refrigeracion/refrigerableStrategy";
 import Tablero from "../tablero/tablero";
 
-export default class CentralConStrategy {
+export default class CentralNuclear {
     
     private _reactor : Reactor = undefined as unknown as Reactor;
     private _operadores : Operador[] = [];
