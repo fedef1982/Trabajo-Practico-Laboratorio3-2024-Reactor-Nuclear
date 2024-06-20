@@ -1,4 +1,4 @@
-@startuml
+@startuml diagrama
 
 ' Relaciones
 CentralNuclear *-- Operador
@@ -27,6 +27,15 @@ Sensor o-- ISuscriptorTemperatura
 Operador o-- Alerta
 Tablero o-- Mostrable
 
+BuilderReactor --> Reactor
+BuilderReactor o-- ICombustible
+BuilderReactor o-- INucleo
+BuilderReactor o-- IGenerador
+
+directorReactor *-- IBuilderReactor
+
+BuilderReactor ..|> IBuilderReactor
+
 ' Clases
 class CentralNuclear{
     - _operadores: Operador[]
@@ -53,6 +62,31 @@ class Reactor{
     + detener()
     + generarEnergia(horas : number)
 }
+
+class BuilderReactor{
+    - capacidad : number
+    - combustible : ICombustible
+    - nucleo : INucleo
+    - generador : IGenerador
+
+    + setCapacidad(capacidad: number) : void
+    + setCombustible(combustible: ICombustible) : void
+    + setNucleo(nucleo: INucleo) : void
+    + setGenerador(generador: IGenerador) : void
+    + getReactor() : Reactor 
+}
+interface IBuilderReactor{
+    + setCapacidad(capacidad : number) : void
+    + setCombustible(combustible : ICombustible) : void
+    + setNucleo(nucleo : INucleo) : void
+    + setGenerador(generador : IGenerador) : void
+}
+class directorReactor{
+    - builder : IBuilderReactor
+    + cambiarBuilder( builder : IBuilderReactor) : void
+    + crearReactor() : void
+}
+
 
 interface IGenerador {
     + generarEnergia(porcentajeCP : number, temp : number) : number
