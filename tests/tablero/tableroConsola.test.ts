@@ -10,7 +10,7 @@ describe('Prueba Clase TableroConsola', () => {
   beforeEach(() => {
     energiaMock = mockMostrable(100, 'Energía Neta');
     temperaturaMock = mockMostrable(200, 'Temperatura');
-    tablero = new TableroConsola();
+    tablero = new TableroConsola(energiaMock, temperaturaMock);
     tablero.energiaNeta = energiaMock;
     tablero.temperatura = temperaturaMock;
   });
