@@ -1,10 +1,15 @@
 import Generador from "../../../src/reactor/generador/Generador";
+import ISuscriptorEnergiaNeta from "../../../src/reactor/generador/ISuscriptorEnegiaNeta";
 
 describe("Testea la clase Generador,", () => {
     let instance : Generador;
+    let mockSuscriptor: jest.Mocked<ISuscriptorEnergiaNeta>;
 
     beforeEach( () => {
-        instance = new Generador();
+        instance = new Generador();   
+        mockSuscriptor = {
+            actualizarEnergiaNeta: jest.fn(),
+        };    
     });
 
     describe("Testeo el método GenerarEnergia()", () => {
@@ -36,5 +41,29 @@ describe("Testea la clase Generador,", () => {
             instance.generarEnergia(100, 100);
             expect(instance.energiaNeta).toBe(0);
         })
+    })
+    
+    describe("Testeo el método suscribir()", () => {
+        it("Deberia agragar suscriptor array de suscriptores", () => {
+            instance.suscribir(mockSuscriptor);
+            expect(instance.suscriptoresEnergiaNeta).toContain(mockSuscriptor);
+        });
+    })
+
+    describe("Testeo el método desuscribir()", () => {
+        it("Deberia quitar suscriptor array de suscriptores", () => {
+            instance.suscribir(mockSuscriptor);
+            instance.desuscribir(mockSuscriptor);
+            expect(instance.suscriptoresEnergiaNeta).not.toContain(mockSuscriptor);
+
+        });
+    })
+    describe("Testeo el método notificar()", () => {
+        it("Deberia notificar a los subscriptos", () => {
+            instance.suscribir(mockSuscriptor);
+            instance.generarEnergia(100,280);
+            instance.notificarEnergiaNeta();
+            expect(mockSuscriptor.actualizarEnergiaNeta).toHaveBeenCalledWith(100);
+        });
     })
 })

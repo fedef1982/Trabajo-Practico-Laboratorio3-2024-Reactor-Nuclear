@@ -10,9 +10,7 @@ describe('Prueba Clase TableroConsola', () => {
   beforeEach(() => {
     energiaMock = mockMostrable(100, 'Energía Neta');
     temperaturaMock = mockMostrable(200, 'Temperatura');
-    tablero = new TableroConsola(energiaMock, temperaturaMock);
-    tablero.energiaNeta = energiaMock;
-    tablero.temperatura = temperaturaMock;
+    tablero = new TableroConsola(energiaMock,temperaturaMock);
   });
 
   it('Deberia ser una instancia de TableroConsola', () => {
@@ -21,42 +19,42 @@ describe('Prueba Clase TableroConsola', () => {
 
   it('Deberia obtener y modificar energiaNeta', () => {
     expect(tablero.energiaNeta).toBe(energiaMock);
-    const newEnergiaMock = mockMostrable(150, 'Nueva Energía Neta');
-    tablero.energiaNeta = newEnergiaMock;
-    expect(tablero.energiaNeta).toBe(newEnergiaMock);
+    const nuevaEnergiaMock = mockMostrable(150, 'Nueva Energía Neta');
+    tablero.energiaNeta = nuevaEnergiaMock;
+    expect(tablero.energiaNeta).toBe(nuevaEnergiaMock);
   });
 
   it('Deberia obtener y modificar temperatura', () => {
     expect(tablero.temperatura).toBe(temperaturaMock);
-    const newTemperaturaMock = mockMostrable(250, 'Nueva Temperatura');
-    tablero.temperatura = newTemperaturaMock;
-    expect(tablero.temperatura).toBe(newTemperaturaMock);
+    const nuevaTemperaturaMock = mockMostrable(250, 'Nueva Temperatura');
+    tablero.temperatura = nuevaTemperaturaMock;
+    expect(tablero.temperatura).toBe(nuevaTemperaturaMock);
   });
 
   it('Deberia actualizar energiaNeta y llamar a mostrarIndicadores', () => {
-    const mostrarIndicadoresSpy = jest.spyOn(tablero, 'mostrarIndicadores');
+    tablero.mostrarIndicadores = jest.fn();
     tablero.actualizarEnergiaNeta(120);
     expect(energiaMock.valor).toBe(120);
-    expect(mostrarIndicadoresSpy).toHaveBeenCalled();
+    expect(tablero.mostrarIndicadores).toHaveBeenCalled();
   });
 
   it('Deberia actualizar temperatura y llamar a mostrarIndicadores', () => {
-    const mostrarIndicadoresSpy = jest.spyOn(tablero, 'mostrarIndicadores');
+    tablero.mostrarIndicadores = jest.fn();
     tablero.actualizarTemperatura(300);
     expect(temperaturaMock.valor).toBe(300);
-    expect(mostrarIndicadoresSpy).toHaveBeenCalled();
+    expect(tablero.mostrarIndicadores).toHaveBeenCalled();
   });
 
   it('Deberia llamar console.log con los valores correctos en mostrarIndicadores', () => {
-    const consoleLogSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-    energiaMock.mostrar.mockReturnValue('Energía Neta : 100');
-    temperaturaMock.mostrar.mockReturnValue('Temperatura : 200');
+    const consoleLogMock = jest.fn();
+    console.log = consoleLogMock;
+
+    energiaMock.mostrar = jest.fn(() => 'Energía Neta : 100');
+    temperaturaMock.mostrar = jest.fn(() => 'Temperatura : 200');
 
     tablero.mostrarIndicadores();
 
-    expect(consoleLogSpy).toHaveBeenCalledWith('Energía Neta : 100');
-    expect(consoleLogSpy).toHaveBeenCalledWith('Temperatura : 200');
-    
-    consoleLogSpy.mockRestore();
+    expect(consoleLogMock).toHaveBeenCalledWith('Energía Neta : 100');
+    expect(consoleLogMock).toHaveBeenCalledWith('Temperatura : 200');
   });
 });

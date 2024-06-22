@@ -13,6 +13,10 @@ export default class Generador implements IGenerador{
         return this._energiaNeta;
     }
 
+    public get suscriptoresEnergiaNeta():ISuscriptorEnergiaNeta[] {
+        return this._suscriptoresEnergiaNeta;
+    }
+
     public generarEnergia(porcentajeCapacidadProductiva: number, temperacturaNucleoRactor: number):number{
         this._energiaNeta = this._calcularEnergiaNeta(temperacturaNucleoRactor) * (porcentajeCapacidadProductiva /100);
         this.notificarEnergiaNeta();
@@ -36,7 +40,7 @@ export default class Generador implements IGenerador{
         }    
     }
 
-    private notificarEnergiaNeta():void{
+    public notificarEnergiaNeta():void{
         for (const suscriptor of this._suscriptoresEnergiaNeta) {
             suscriptor.actualizarEnergiaNeta(this._energiaNeta);
         }
