@@ -1,5 +1,3 @@
-// Mocking the dependencies
-
 export const mockTurbina = {
     
     porcentajeReduccion : 10,
@@ -22,7 +20,6 @@ export const mockSensor = {
 
 export const mockNucleo = {
     sensor : mockSensor,
-    //temperatura : jest.fn(),
     temperatura : jest.fn().mockReturnValue(100),
 }as any;
 
@@ -74,3 +71,6 @@ export const mockEstadoReactorEncendido = {
 } as any;
   
 
+export const mockEstadoReactorCritico = {
+
+}as any;
