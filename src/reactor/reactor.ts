@@ -5,7 +5,6 @@ import ICombustible from "./ICombustible";
 import INucleo from "./INucleo";
 import IGenerador from "./generador/IGenerador";
 
-
 export default class Reactor{
     private _capacidad : number;
     private _combustible : ICombustible;
