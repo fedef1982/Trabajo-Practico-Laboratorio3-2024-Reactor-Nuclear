@@ -25,11 +25,13 @@ Operador o-- Alerta
 
 ' Clases
 class CentralNuclear{
+    - _instance : CentralNuclear
     - _operadores: Operador[]
     - _reactores: Reactor[]
     - _tableros: tablero[]
     - _estrategia: RefrigerableStrategy
     
+    + getInstance()
     + activarMecanismoDeEnfriamiento()
     + agregarOperador(operador : Operador)
     + quitarOperador(operador : Operador)
@@ -81,7 +83,6 @@ interface INucleo{
 
 class Nucleo implements INucleo{
     - _barraDeControl : BarrasDeControl
-    - _temperatura : number
     - _sensor : ISensor
         
     + setTemperatura(temperatura : number)
@@ -165,11 +166,13 @@ class EstadoReactorDisminuido extends EstadoReactor{
     + suscribir(suscriptor : ISuscriptorEstadoDisminuido)
     + desuscribir(suscriptor : ISuscriptorEstadoDisminuido)
     + notificarEstado()
- }
+    - puedeGenerarEnergia(horaActual : number, horaLimite : number, cantCombustible : number, temperatura : number) : boolean
+}
 
 class EstadoReactorNormal extends EstadoReactor{
     + equals(estado : EstadoReactor) : boolean
     + generarEnergia(horas : number): void
+    - puedeGenerarEnergia(horaActual : number, horaLimite : number, cantCombustible : number, temperatura : number) : boolean
 }
 
 class EstadoReactorApagado extends EstadoReactor{
@@ -181,7 +184,7 @@ class Operador implements ISuscriptorEstadoDisminuido{
     - _alerta : Alerta[] = []
     - _strategy : RefrigerableStrategy
 
-    + activarProtocoloDeEnfriamiento(central : CentralNuclear)
+    + activarProtocoloDeEnfriamiento()
     + recibirAlerta(estado : EstadoReactor)
 }
 
@@ -189,6 +192,7 @@ class SrBurns implements ISuscriptorEstadoApagado{
     -  static instance : SrBurns;
     - _alertas : Alerta[]
 
+    + getInstance(): SrBurns
     + recibirAlerta(estado: EstadoReactor)
 }
 
