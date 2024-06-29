@@ -1,7 +1,4 @@
-import Reactor from "../src/reactor/reactor";
 import EstadoReactor from "../src/estadosReactor/estadoReactor";
-
-
 
 export const mockNucleo = {
     _temperatura: 1,
@@ -53,8 +50,8 @@ export const mockNucleo = {
       porcentajeAumentoTemperatura: 100,
       cantidadCombustible: 100,
     },
-    _capacidad: 0, // Ajusta según sea necesario
-    _energiaProducida: 0, // Ajusta según sea necesario
+    _capacidad: 0,
+    _energiaProducida: 0,
   
     get capacidad() {
       return this._capacidad;
