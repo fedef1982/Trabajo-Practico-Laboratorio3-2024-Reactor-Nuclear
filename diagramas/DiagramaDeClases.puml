@@ -42,11 +42,13 @@ BuilderReactor ..|> IBuilderReactor
 
 ' Clases
 class CentralNuclear{
+    - _instance : CentralNuclear
     - _operadores: Operador[]
     - _reactores: Reactor[]
     - _tableros: tablero[]
     - _estrategia: RefrigerableStrategy
     
+    + getInstance()
     + activarMecanismoDeEnfriamiento()
     + agregarOperador(operador : Operador)
     + quitarOperador(operador : Operador)
@@ -79,13 +81,15 @@ class BuilderReactor{
     + setGenerador(generador: IGenerador) : void
     + getReactor() : Reactor 
 }
+
 interface IBuilderReactor{
     + setCapacidad(capacidad : number) : void
     + setCombustible(combustible : ICombustible) : void
     + setNucleo(nucleo : INucleo) : void
     + setGenerador(generador : IGenerador) : void
 }
-class directorReactor{
+
+class DirectorReactor{
     - builder : IBuilderReactor
     + cambiarBuilder( builder : IBuilderReactor) : void
     + crearReactor() : void
@@ -97,7 +101,7 @@ interface IGenerador {
 }
 
 interface ISuscriptorEnergiaNeta{
-    actualizarEnergiaNeta(energiaNeta: number):void
+    + actualizarEnergiaNeta(energiaNeta: number):void
 }
 
 class Generador implements IGenerador {
@@ -263,11 +267,13 @@ class EstadoReactorDisminuido extends EstadoReactor{
     + suscribir(suscriptor : ISuscriptorEstadoDisminuido)
     + desuscribir(suscriptor : ISuscriptorEstadoDisminuido)
     + notificarEstado()
+    - puedeGenerarEnergia(horaActual : number, horaLimite : number, cantCombustible : number, temperatura : number) : boolean
 }
 
 class EstadoReactorNormal extends EstadoReactor{
     + equals(estado : EstadoReactor) : boolean
     + generarEnergia(horas : number): void
+    - puedeGenerarEnergia(horaActual : number, horaLimite : number, cantCombustible : number, temperatura : number) : boolean
 }
 
 class EstadoReactorApagado extends EstadoReactor{
@@ -276,6 +282,7 @@ class EstadoReactorApagado extends EstadoReactor{
 
 class EstadoReactorEncendido extends EstadoReactor{
     + generarEnergia(horas : number): void
+    - puedeGenerarEnergia(horaActual : number, horaLimite : number, cantCombustible : number, temperatura : number) : boolean
 }
 
 class Operador implements ISuscriptorEstadoDisminuido{
@@ -283,7 +290,7 @@ class Operador implements ISuscriptorEstadoDisminuido{
     - _alerta : Alerta[] = []
     - _strategy : RefrigerableStrategy
 
-    + activarProtocoloDeEnfriamiento(central : CentralNuclear)
+    + activarProtocoloDeEnfriamiento()
     + recibirAlerta(estado : EstadoReactor)
 }
 
@@ -291,6 +298,7 @@ class SrBurns implements ISuscriptorEstadoApagado{
     -  static instance : SrBurns;
     - _alertas : Alerta[]
 
+    + getInstance(): SrBurns
     + recibirAlerta(estado: EstadoReactor)
 }
 
