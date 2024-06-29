@@ -263,11 +263,13 @@ class EstadoReactorDisminuido extends EstadoReactor{
     + suscribir(suscriptor : ISuscriptorEstadoDisminuido)
     + desuscribir(suscriptor : ISuscriptorEstadoDisminuido)
     + notificarEstado()
+    - puedeGenerarEnergia(hora : number, horaLim : number, cantComb : number, temp : number) : boolean
 }
 
 class EstadoReactorNormal extends EstadoReactor{
     + equals(estado : EstadoReactor) : boolean
     + generarEnergia(horas : number): void
+    - puedeGenerarEnergia(hora : number, horaLim : number, cantComb : number, temp : number) : boolean
 }
 
 class EstadoReactorApagado extends EstadoReactor{
@@ -276,6 +278,7 @@ class EstadoReactorApagado extends EstadoReactor{
 
 class EstadoReactorEncendido extends EstadoReactor{
     + generarEnergia(horas : number): void
+    - puedeGenerarEnergia(hora : number, horaLim : number, cantComb : number, temp : number) : boolean
 }
 
 class Operador implements ISuscriptorEstadoDisminuido{
@@ -283,7 +286,7 @@ class Operador implements ISuscriptorEstadoDisminuido{
     - _alerta : Alerta[] = []
     - _strategy : RefrigerableStrategy
 
-    + activarProtocoloDeEnfriamiento(central : CentralNuclear)
+    + activarProtocoloDeEnfriamiento()
     + recibirAlerta(estado : EstadoReactor)
 }
 
@@ -291,6 +294,7 @@ class SrBurns implements ISuscriptorEstadoApagado{
     -  static instance : SrBurns;
     - _alertas : Alerta[]
 
+    + getInstance(): SrBurns
     + recibirAlerta(estado: EstadoReactor)
 }
 
