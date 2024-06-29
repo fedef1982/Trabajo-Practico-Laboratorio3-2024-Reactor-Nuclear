@@ -7,7 +7,7 @@ export default class EstadoReactorDisminuido extends EstadoReactor{
 
     constructor(){
         super();
-        this._suscriptores = undefined as unknown as ISuscriptorEstadoDisminuido[];
+        this._suscriptores = [];
     }
 
     public generarEnergia(horasParaGenerarEnergia : number): void {
