@@ -10,13 +10,17 @@ export default class EstadoReactorNormal extends EstadoReactor{
     public generarEnergia(horasParaGenerarEnergia : number): void {
         let temperaturaReactorActual : number = this._reactor.nucleo.sensor.getTemperaturaNucleo;
         let horasQueLlevaGenerando : number = 1;
+        let cantidadCombustible : number = this._reactor.combustible.cantidadCombustible;
 
-        while(temperaturaReactorActual < 330 && horasQueLlevaGenerando <= horasParaGenerarEnergia){
+        while(this.puedeGenerarEnergia(horasQueLlevaGenerando, horasParaGenerarEnergia, cantidadCombustible, temperaturaReactorActual)){
             this._reactor.generador.generarEnergia(100, temperaturaReactorActual);
             temperaturaReactorActual += 8;
             
             this._reactor.nucleo.temperatura = temperaturaReactorActual;
             horasQueLlevaGenerando++;
+
+            cantidadCombustible--;
+            this._reactor.combustible.cantidadCombustible = cantidadCombustible;
         }
 
         let horasRestantes : number = horasParaGenerarEnergia - horasQueLlevaGenerando;
@@ -25,6 +29,11 @@ export default class EstadoReactorNormal extends EstadoReactor{
             this._reactor.estado = new EstadoReactorDisminuido();
             this._reactor.estado.generarEnergia(horasRestantes);
         }
+    }
+
+    private puedeGenerarEnergia(horasGenerando : number, horasLimite : number, cantidadCombustible : number, temperaturaActual : number) : boolean {
+
+        return horasGenerando <= horasLimite && cantidadCombustible> 0 && temperaturaActual < 330
     }
 
 }
