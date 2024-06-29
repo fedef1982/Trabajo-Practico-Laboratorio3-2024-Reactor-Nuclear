@@ -1,5 +1,14 @@
 import EstadoReactor from "../src/estadosReactor/estadoReactor";
 import EstadoReactorApagado from "../src/estadosReactor/estadoReactorApagado";
+import Reactor from "../src/reactor/reactor";
+
+export const mockOperador = {} as any;
+
+export const mockStrategy = {
+  enfriar : jest.fn((reactor : Reactor) =>{}),
+} as any;
+
+export const mockTablero = {} as any;
 
 export const mockSuscriptorApagado = {
   recibirAlerta : jest.fn((estado : EstadoReactorApagado) =>{}),
@@ -114,6 +123,7 @@ export const mockCombustible = {
       return this._combustible;
     },
 
+    iniciar : jest.fn(),
     detener : jest.fn(),
 
   } as any;
