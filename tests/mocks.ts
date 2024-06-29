@@ -13,14 +13,14 @@ export const mockCombustible = {
 }as any;
 
 export const mockSensor = {
-    getTemperaturaNucleo : jest.fn().mockReturnValue(100),
+    getTemperaturaNucleo : 100,
     
 
 }as any;
 
 export const mockNucleo = {
     sensor : mockSensor,
-    temperatura : jest.fn().mockReturnValue(100),
+    temperatura : 100,
 }as any;
 
 export const mockNucleo2 = {
@@ -31,7 +31,7 @@ export const mockNucleo2 = {
 } as any;
 
 export const mockGenerador = {
-    
+    generarEnergia : jest.fn(),
 }as any;
 
 export const mockReactor2 = {
@@ -39,9 +39,18 @@ export const mockReactor2 = {
     combustible : mockCombustible,
 } as any;
 
+
+export const mockEstadoReactorEncendido = {
+    generarEnergia: jest.fn(),
+    _reactor : mockReactor2,
+} as any;
+
 export const mockReactor = {
     nucleo : mockNucleo,
     combustible : mockCombustible,
+    generador : mockGenerador,
+    detener : jest.fn().mockReturnValue(undefined),
+    estado : mockEstadoReactorEncendido,
 } as any;
 
 export const mockSuscriptor = {
@@ -65,12 +74,11 @@ export const newBuilder = {
 export const mockBarrasDeControl = {
     tiempoVidaUtil: -1,
 } as any;
-
-export const mockEstadoReactorEncendido = {
-    generarEnergia: jest.fn(),
-} as any;
   
-
 export const mockEstadoReactorCritico = {
-
+    situacionCritica : jest.fn(),
 }as any;
+
+export const mockSuscriptorEstadoDisminuido = {
+    recibirAlerta : jest.fn(),
+} as any;
