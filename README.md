@@ -23,9 +23,9 @@ La planta nuclear genera electricidad a partir de reacciones de fisión nuclear 
 El reactor del Sr. Montgomery B. posee una capacidad de 700 MW/h, lo que significa que en condiciones normales, puede generar hasta 700 MWe de energía eléctrica por hora, aunque generalmente, la producción es menor.
 Según la temperatura registrada, el reactor se comporta de diferentes maneras:
 
-- ++Rango normal de temperatura++: Entre 280°C y 330°C.
-- ++Estado de criticidad++: Por encima de 330°C, la capacidad productiva del reactor se reduce al 80% de su capacidad total.
-- ++Estado crítico++: Por encima de 400°C, el reactor debe ser apagado de forma inmediata para evitar accidentes.
+- **Rango normal de temperatura**: Entre 280°C y 330°C.
+- **Estado de criticidad**: Por encima de 330°C, la capacidad productiva del reactor se reduce al 80% de su capacidad total.
+- **Estado crítico**: Por encima de 400°C, el reactor debe ser apagado de forma inmediata para evitar accidentes.
 
 #### Requerimientos del Sistema
 El Sr. Montgomery B. solicita que el sistema envíe una alerta al operador en caso de que la temperatura del reactor supere los 330°C, para que pueda activar los protocolos de enfriamiento del reactor. Este mecanismo, que solo puede ser activado si la temperatura supera los 330°C, reduce la potencia generada en base al consumo automático de las barras de control del reactor.
