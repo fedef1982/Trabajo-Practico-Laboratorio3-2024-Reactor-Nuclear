@@ -7,7 +7,7 @@ export const mockEstado = {} as any;
 export const mockOperador = {} as any;
 
 export const mockStrategy = {
-  enfriar : jest.fn((reactor : Reactor) =>{}),
+  enfriar : jest.fn((reactor : Reactor) =>{return 0}),
 } as any;
 
 export const mockTablero = {} as any;
