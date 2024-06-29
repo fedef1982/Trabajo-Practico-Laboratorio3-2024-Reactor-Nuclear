@@ -7,29 +7,35 @@ export default class EstadoReactorDisminuido extends EstadoReactor{
 
     constructor(){
         super();
-        this._suscriptores = undefined as unknown as ISuscriptorEstadoDisminuido[];
+        this._suscriptores = [];
     }
 
     public generarEnergia(horasParaGenerarEnergia : number): void {
         this.notificarEstado();
         let temperaturaReactorActual : number = this._reactor.nucleo.sensor.getTemperaturaNucleo;
         let horasQueLlevaGenerando : number = 1;
-        
-        while (temperaturaReactorActual < 400 && horasQueLlevaGenerando <= horasParaGenerarEnergia) {
+        let cantidadCombustible : number = this._reactor.combustible.cantidadCombustible;
+
+        while(this.puedeGenerarEnergia(horasQueLlevaGenerando, horasParaGenerarEnergia, cantidadCombustible, temperaturaReactorActual)) {
             this._reactor.generador.generarEnergia(80, temperaturaReactorActual);
             temperaturaReactorActual += 8;
 
             this._reactor.nucleo.temperatura = temperaturaReactorActual;
             horasQueLlevaGenerando++;
-            //genera energia y notifica al operador
+            
+            cantidadCombustible--;
+            this._reactor.combustible.cantidadCombustible = cantidadCombustible;
+
         }
 
-        if(this._reactor.nucleo.sensor.getTemperaturaNucleo >= 400){
+        if(this._reactor.nucleo.temperatura >= 400){
             let estadoCritico : EstadoReactorCritico = new EstadoReactorCritico();
-
+            estadoCritico.setReactor = this._reactor;
+            
             this._reactor.estado = estadoCritico;
             estadoCritico.situacionCritica();
         }
+
     }
 
     public suscribir(suscriptor : ISuscriptorEstadoDisminuido) {
@@ -44,5 +50,10 @@ export default class EstadoReactorDisminuido extends EstadoReactor{
         this._suscriptores.forEach(suscriptor => {
             suscriptor.recibirAlerta(this);
         });
+    }
+
+    private puedeGenerarEnergia(horasGenerando : number, horasLimite : number, cantidadCombustible : number, temperaturaActual : number) : boolean {
+
+        return horasGenerando <= horasLimite && cantidadCombustible> 0 && temperaturaActual < 400
     }
 }
