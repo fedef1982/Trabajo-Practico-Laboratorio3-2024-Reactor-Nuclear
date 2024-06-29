@@ -4,15 +4,28 @@ import RefrigerableStrategy from "../refrigeracion/refrigerableStrategy";
 import Tablero from "../tablero/tablero";
 
 export default class CentralNuclear {
-    
+    private static _instance : CentralNuclear;
     private _reactor : Reactor = undefined as unknown as Reactor;
     private _operadores : Operador[] = [];
     private _strategy : RefrigerableStrategy = undefined as unknown as RefrigerableStrategy;
     private _tablero : Tablero = undefined as unknown as Tablero;
   
-    constructor(reactor : Reactor, tablero : Tablero){
+    
+    constructor(){}
+
+    public static getInstance(){
+        if(!this._instance){
+            this._instance = new CentralNuclear();
+        }
+        return this._instance;
+    }
+
+    public set reactor(reactor : Reactor){
         this._reactor = reactor;
-        this._tablero = tablero;
+    }
+
+    public get reactor() : Reactor{
+        return this._reactor;
     }
 
     public set tablero(tablero : Tablero) {

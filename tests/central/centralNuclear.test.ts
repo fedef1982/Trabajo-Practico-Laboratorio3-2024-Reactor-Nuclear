@@ -15,7 +15,7 @@ describe("EstadoReactorCritico", () => {
       reactor = Mocks.mockReactor;
       operador = Mocks.mockOperador;
       tablero = Mocks.mockTablero;
-      central = new CentralNuclear(reactor, tablero);
+      central = new CentralNuclear();
     });
   
     afterEach(() => {
@@ -23,6 +23,7 @@ describe("EstadoReactorCritico", () => {
     });
   
     it("Verificar setter y getter de tablero", () => {
+      central.tablero = tablero;
       expect(central['_tablero']).toBe(tablero);
       let otroTablero = Mocks.mockTablero;
       central.tablero = otroTablero;
@@ -45,6 +46,7 @@ describe("EstadoReactorCritico", () => {
     });
 
     it("Verificar los metodos para iniciar y detener el reactor desde central", () => {
+        central.reactor = reactor;  
         central.encenderReactor();
         expect(reactor.iniciar).toHaveBeenCalledTimes(1);
         central.apagarReactor();

@@ -2,6 +2,8 @@ import EstadoReactor from "../src/estadosReactor/estadoReactor";
 import EstadoReactorApagado from "../src/estadosReactor/estadoReactorApagado";
 import Reactor from "../src/reactor/reactor";
 
+export const mockEstado = {} as any;
+
 export const mockOperador = {} as any;
 
 export const mockStrategy = {
