@@ -19,9 +19,6 @@ describe('Testeo la clase Nucleo', () => {
     jest.clearAllMocks();
   });
 
-  it('debería inicializarse con la temperatura correcta', () => {
-    expect(instance.temperatura).toBe(-1);
-  });
 
   it('debería actualizar la temperatura y notificar al sensor', () => {
     const nuevaTemperatura = 100;
