@@ -1,17 +1,23 @@
 import Alerta from "../../src/tablero/alerta";
 
-describe("Alerta", () => {
-    let instance: Alerta;
-  
-    const mockEstadoReactor = {} as any;
-    beforeEach(() => {
-      instance = new Alerta();
-    });
-  
-    it("Se verifica el funcionamiento del getter y setter", () => {
-        instance.estado = mockEstadoReactor;
-        expect(instance.estado).toBe(mockEstadoReactor);
-        let estado = instance.estado;
-        expect(estado).toBe(mockEstadoReactor);
-    });
+import EstadoReactor from "../../src/estadosReactor/estadoReactor";
+import EstadoReactorDisminuido from "../../src/estadosReactor/estadoReactorDisminuido";
+
+describe('Alerta', () => {
+  let alerta: Alerta;
+  let estado: EstadoReactor;
+
+  beforeEach(() => {
+    alerta = new Alerta();
+    estado = new EstadoReactorDisminuido();
   });
+
+  test('debería establecer y obtener el estado correctamente', () => {
+    alerta.estado = estado;
+    expect(alerta.estado).toBe(estado);
+  });
+
+  test('debería inicializar el estado como undefined', () => {
+    expect(alerta.estado).toBeUndefined();
+  });
+});
