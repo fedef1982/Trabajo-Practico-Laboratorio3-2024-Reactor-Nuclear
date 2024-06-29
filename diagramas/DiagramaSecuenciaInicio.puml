@@ -1,0 +1,36 @@
+@startuml Diagrama Secuencia desde Iniciar, Encendido hasta Normal
+
+title Diagrama Secuencia desde Iniciar, Encendido hasta Normal
+skinparam BackgroundColor lightcyan
+
+CentralNuclear --> Reactor: iniciar()
+Reactor --> EstadoEncendido: generadorEnergia()
+EstadoEncendido -[HIDDEN]-> EstadoNormal: 
+EstadoEncendido --> Nucleo: nucleo.getTemperatura()
+Nucleo --> Sensor: getTemperatura()
+Sensor --> Nucleo: ValorTemperatura
+Nucleo --> EstadoEncendido: Valor Temperatura
+EstadoEncendido --> Combustible: combustible.cantidadCombustible()
+Combustible --> EstadoEncendido: Cantidad Combustible
+note right
+  Aumenta la Temperatura y dismuye combustible
+  hasta 280° aprox.
+end note
+EstadoEncendido --> EstadoNormal: setEstado(normal)
+EstadoNormal --> Nucleo: nucleo.getTemperatura()
+Nucleo --> Sensor: getTemperatura()
+Sensor --> Nucleo: ValorTemperatura
+Nucleo --> EstadoNormal: Valor Temperatura
+EstadoNormal --> Combustible: combustible.cantidadCombustible()
+Combustible --> EstadoNormal: Cantidad Combustible
+note right
+  Aumenta la Temperatura, dismuye combustible
+  hasta 330° aprox. Luego continuara en estado 
+  Disminuido
+end note
+EstadoNormal --> Generador: generarEnergia()
+Generador --> Tablero: notificarEnergiaNeta()
+Tablero --> Console.log : mostrarIndicadores() 
+
+
+@enduml

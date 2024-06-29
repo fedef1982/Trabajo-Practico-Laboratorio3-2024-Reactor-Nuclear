@@ -1,24 +1,16 @@
-@startuml Diagrama de Clases General
+@startuml Diagrama
 
-title Diagrama de Clases General
-skinparam BackgroundColor azure
+title Diagrama de Clases Observers
+skinparam BackgroundColor mintcream
 ' Relaciones
-'CentralNuclear *-r- Operador
-'CentralNuclear *-r- SrBurns
 CentralNuclear *-l- Reactor
-CentralNuclear *-r- Tablero
-CentralNuclear *-d- RefrigerableStrategy
+CentralNuclear *-- Tablero
 
-Reactor *-l- EstadoReactor
-Reactor *-d- INucleo
-Reactor o-d- ICombustible
-Reactor *-d- IGenerador
+Reactor *-- EstadoReactor
+Reactor *-- INucleo
+Reactor *-- IGenerador
 
-EstadoReactor -u[HIDDEN]- EstadoReactorEncendido
-EstadoReactor -u[HIDDEN]- EstadoReactorApagado
-EstadoReactor -u[HIDDEN]- EstadoReactorNormal
-
-Generador o-- ISuscriptorEnergiaNeta
+Generador o.. ISuscriptorEnergiaNeta
 
 EstadoReactorCritico o-- ISuscriptorEstadoApagado
 EstadoReactorDisminuido o-- ISuscriptorEstadoDisminuido
@@ -26,23 +18,9 @@ EstadoReactorDisminuido o-- ISuscriptorEstadoDisminuido
 Nucleo *-- ISensor
 Nucleo o-- BarraDeControl
 
-TurbinaDeRefrigeracionStrategy *-- TurbinaDeRefrigeracion
-BarraDeControlStrategy *-- BarraDeControl
-
 Sensor o-- ISuscriptorTemperatura
 Operador o-- Alerta
 Tablero o-- Mostrable
-
-BuilderReactor --> Reactor
-'BuilderReactor o-- ICombustible
-'BuilderReactor o-- INucleo
-'BuilderReactor o-- IGenerador
-
-BuilderReactor -l[HIDDEN]- IBuilderReactor
-
-directorReactor *-- IBuilderReactor
-
-BuilderReactor ..|> IBuilderReactor
 
 ' Clases
 class CentralNuclear{
@@ -71,31 +49,6 @@ class Reactor{
     + generarEnergia(horas : number)
 }
 
-class BuilderReactor{
-    - capacidad : number
-    - combustible : ICombustible
-    - nucleo : INucleo
-    - generador : IGenerador
-
-    + setCapacidad(capacidad: number) : void
-    + setCombustible(combustible: ICombustible) : void
-    + setNucleo(nucleo: INucleo) : void
-    + setGenerador(generador: IGenerador) : void
-    + getReactor() : Reactor 
-}
-interface IBuilderReactor{
-    + setCapacidad(capacidad : number) : void
-    + setCombustible(combustible : ICombustible) : void
-    + setNucleo(nucleo : INucleo) : void
-    + setGenerador(generador : IGenerador) : void
-}
-class directorReactor{
-    - builder : IBuilderReactor
-    + cambiarBuilder( builder : IBuilderReactor) : void
-    + crearReactor() : void
-}
-
-
 interface IGenerador {
     + generarEnergia(porcentajeCP : number, temp : number) : number
 }
@@ -115,22 +68,6 @@ class Generador implements IGenerador {
     + notificarEnergiaNeta():void
 }
 
-interface ICombustible {
-    + setCantidadCombustible(cantCombustible : number)
-    + getCantidadCombustible() : number
-    + getPorcentajeAumentoTemperatura() : number
-}
-
-class Combustible implements ICombustible {
-    - _cantidadCombustible : number
-    - _porcentajeAumentoTemperatura : number
-
-    + setCantidadCombustible(cantCombustible : number)
-    + getCantidadCombustible() : number
-    + getPorcentajeAumentoTemperatura() : number
-}
-
-' Observer
 interface ISensor{
     + setTemperaturaReactor(temperatura : number)
     + getTemperaturaReactor () : number
@@ -194,49 +131,6 @@ class Nucleo implements INucleo{
     + sacarBarraDeControl() : void
 }
 
-' Strategy
-interface RefrigerableStrategy{
-    + disminuirTemperatura(porcentajeR : number, reactor : Reactor) : void
-    + enfriar(reactor : Reactor) : void
-}
-
-class BarraDeControlStrategy implements RefrigerableStrategy{
-    - _barras : BarrasDeControl[]
-    - _barrasUsadas : number
-
-    - restablecerBarrasUsadas()
-    + agregarBarra(barra : BarrasDeControl)
-    + quitarBarra(barra : BarrasDeControl)
-    - esUtil(barra : BarrasDeControl) : boolean
-    + disminuirTemperatura(porcentajeR : number, reactor : Reactor)
-    + limpiarBarraInutiles()
-    + enfriar(reactor : Reactor) : void
-}
-
-class BarraDeControl{
-    - _porcentajeReduccion: number
-    - _tiempoVidaUtil: number
-
-    - actualizarUtilidad() : void
-    - restarVidaUtil () : void
-}
-
-class TurbinaDeRefrigeracionStrategy implements RefrigerableStrategy{
-    - _turbinas : Turbina[]
-
-    + disminuirTemperatura(porcentajeR : number, reactor : Reactor) : void
-    + enfriar(reactor : Reactor) : void
-}
-
-class TurbinaDeRefrigeracion {
-    - _porcentajeReduccion: number
-    - _activo: boolean
-
-    + activar()
-    + desactivar()
-}
-
-' State + Observer Estado
 abstract class EstadoReactor{
     # _reactor: Reactor
 
@@ -269,19 +163,6 @@ class EstadoReactorDisminuido extends EstadoReactor{
     + suscribir(suscriptor : ISuscriptorEstadoDisminuido)
     + desuscribir(suscriptor : ISuscriptorEstadoDisminuido)
     + notificarEstado()
- }
-
-class EstadoReactorNormal extends EstadoReactor{
-    + equals(estado : EstadoReactor) : boolean
-    + generarEnergia(horas : number): void
-}
-
-class EstadoReactorApagado extends EstadoReactor{
-    + generarEnergia(horas : number): void
- }
-
-class EstadoReactorEncendido extends EstadoReactor{
-    + generarEnergia(horas : number): void
  }
 
 class Operador implements ISuscriptorEstadoDisminuido{
