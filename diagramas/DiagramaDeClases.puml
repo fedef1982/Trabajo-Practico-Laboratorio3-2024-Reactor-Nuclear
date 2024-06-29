@@ -81,13 +81,15 @@ class BuilderReactor{
     + setGenerador(generador: IGenerador) : void
     + getReactor() : Reactor 
 }
+
 interface IBuilderReactor{
     + setCapacidad(capacidad : number) : void
     + setCombustible(combustible : ICombustible) : void
     + setNucleo(nucleo : INucleo) : void
     + setGenerador(generador : IGenerador) : void
 }
-class directorReactor{
+
+class DirectorReactor{
     - builder : IBuilderReactor
     + cambiarBuilder( builder : IBuilderReactor) : void
     + crearReactor() : void
@@ -265,13 +267,13 @@ class EstadoReactorDisminuido extends EstadoReactor{
     + suscribir(suscriptor : ISuscriptorEstadoDisminuido)
     + desuscribir(suscriptor : ISuscriptorEstadoDisminuido)
     + notificarEstado()
-    - puedeGenerarEnergia(hora : number, horaLim : number, cantComb : number, temp : number) : boolean
+    - puedeGenerarEnergia(horaActual : number, horaLimite : number, cantCombustible : number, temperatura : number) : boolean
 }
 
 class EstadoReactorNormal extends EstadoReactor{
     + equals(estado : EstadoReactor) : boolean
     + generarEnergia(horas : number): void
-    - puedeGenerarEnergia(hora : number, horaLim : number, cantComb : number, temp : number) : boolean
+    - puedeGenerarEnergia(horaActual : number, horaLimite : number, cantCombustible : number, temperatura : number) : boolean
 }
 
 class EstadoReactorApagado extends EstadoReactor{
@@ -280,7 +282,7 @@ class EstadoReactorApagado extends EstadoReactor{
 
 class EstadoReactorEncendido extends EstadoReactor{
     + generarEnergia(horas : number): void
-    - puedeGenerarEnergia(hora : number, horaLim : number, cantComb : number, temp : number) : boolean
+    - puedeGenerarEnergia(horaActual : number, horaLimite : number, cantCombustible : number, temperatura : number) : boolean
 }
 
 class Operador implements ISuscriptorEstadoDisminuido{
