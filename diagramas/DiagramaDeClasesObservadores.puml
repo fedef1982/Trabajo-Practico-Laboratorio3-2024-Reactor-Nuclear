@@ -24,11 +24,13 @@ Tablero o-- Mostrable
 
 ' Clases
 class CentralNuclear{
+    - _instance : CentralNuclear
     - _operadores: Operador[]
     - _reactores: Reactor[]
     - _tableros: tablero[]
     - _estrategia: RefrigerableStrategy
     
+    + getInstance()
     + activarMecanismoDeEnfriamiento()
     + agregarOperador(operador : Operador)
     + quitarOperador(operador : Operador)
@@ -54,7 +56,7 @@ interface IGenerador {
 }
 
 interface ISuscriptorEnergiaNeta{
-    actualizarEnergiaNeta(energiaNeta: number):void
+    + actualizarEnergiaNeta(energiaNeta: number):void
 }
 
 class Generador implements IGenerador {
@@ -99,7 +101,6 @@ abstract class Tablero implements ISuscriptorEnergiaNeta, ISuscriptorTemperatura
 
 class tableroConsola extends Tablero{
     + mostrarIndicadores()
-
 }
 
 class Mostrable{
@@ -120,7 +121,6 @@ interface INucleo{
 
 class Nucleo implements INucleo{
     - _barraDeControl : BarrasDeControl
-    - _temperatura : number
     - _sensor : ISensor
         
     + setTemperatura(temperatura : number)
@@ -163,14 +163,15 @@ class EstadoReactorDisminuido extends EstadoReactor{
     + suscribir(suscriptor : ISuscriptorEstadoDisminuido)
     + desuscribir(suscriptor : ISuscriptorEstadoDisminuido)
     + notificarEstado()
- }
+    - puedeGenerarEnergia(horaActual : number, horaLimite : number, cantCombustible : number, temperatura : number) : boolean
+}
 
 class Operador implements ISuscriptorEstadoDisminuido{
     - _legajo : number
     - _alerta : Alerta[] = []
     - _strategy : RefrigerableStrategy
 
-    + activarProtocoloDeEnfriamiento(central : CentralNuclear)
+    + activarProtocoloDeEnfriamiento()
     + recibirAlerta(estado : EstadoReactor)
 }
 
@@ -178,6 +179,7 @@ class SrBurns implements ISuscriptorEstadoApagado{
     -  static instance : SrBurns;
     - _alertas : Alerta[]
 
+    + getInstance(): SrBurns
     + recibirAlerta(estado: EstadoReactor)
 }
 
