@@ -4,15 +4,23 @@
     <img src="https://i.pinimg.com/564x/31/63/3f/31633f9650dd972188b41ce7c7366b4d.jpg" width="80%">
 </p>
 
-## Conenidos
-- [Introducción](##Introducción)
-- [Pre-requisitos](##💻-Pre-requisitos)
-- [Instalación](##🚀-Instalación)
-- [Compilación](##🔨-Compilación)
-- [Ejecución](##▶️-Ejecución)
-- [Testeo](##✅-Testeo)
-- [Estructura del proyecto](##📌-Estructura-del-Proyecto)
-- [Autores](##🤝-Autores)
+## Tabla de Contenido
+
+1. [Introducción](#introducción)
+    - [Funcionamiento del Reactor](#funcionamiento-del-reactor)
+    - [Requerimientos del Sistema](#requerimientos-del-sistema)
+2. [💻 Pre-requisitos](#💻-pre-requisitos)
+    - [Node.js y npm](#nodejs-y-npm)
+3. [🚀 Instalación](#🚀-instalación)
+    - [Clonar el Repositorio](#clonar-el-repositorio)
+    - [Instalar Dependencias del Proyecto](#instalar-dependencias-del-proyecto)
+4. [🔨 Compilación](#🔨-compilación)
+5. [⚙️ Ejecución](#⚙️-ejecución)
+6. [✅ Testeo](#✅-testeo)
+7. [📁 Estructura del Proyecto](#📁-estructura-del-proyecto)
+8. [🤝 Autores](#🤝-autores)
+
+
 
 ## Introducción
 Este proyecto implementa un sistema de asistencia específicamente desarrollado para asistir a los operadores, incluyendo a Homero J. S., en la supervisión y control del reactor nuclear.
@@ -34,7 +42,7 @@ Cada barra de control reduce la energía térmica liberada en un determinado por
 
 ---
 
-## 💻 Pre-requisitos
+## 💻 Pre requisitos
 
 ### Node.js y npm
 Este proyecto usa el lenguaje TypeScript y requiere Node.js y npm (Node Package Manager) para ejecutarse e instalar los paquetes necesarios.
@@ -73,7 +81,7 @@ Para compilar los archivos ejecuta:
   npm run build
 ```
 
-## ▶️ Ejecución
+## ⚙️ Ejecución
 Para ejecutar el proyecto, usa el siguiente comando:
 ```bash
   npm run start:dev
@@ -86,7 +94,7 @@ Para testear el proyecto usa el comando en tu terminal
   npm run test
 ```
 
-## 📌 Estructura del Proyecto
+## 📁 Estructura del Proyecto
 
 ```css
 Trabajo-Practico-Laboratorio3-2024-Reactor-Nuclear
@@ -223,3 +231,6 @@ Trabajo-Practico-Laboratorio3-2024-Reactor-Nuclear
   </tr>
 </table>
 
+
+
+[#💻 Pre requisitos]: #💻-Pre-requisitos
