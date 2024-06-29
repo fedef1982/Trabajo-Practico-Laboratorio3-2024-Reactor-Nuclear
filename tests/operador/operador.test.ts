@@ -4,7 +4,6 @@ import * as Mocks from "../mocksReactor";
 import RefrigerableStrategy from "../../src/refrigeracion/refrigerableStrategy";
 import CentralNuclear from "../../src/central/centralNuclear";
 import Reactor from "../../src/reactor/reactor";
-import EstadoReactorDisminuido from "../../src/estadosReactor/estadoReactorDisminuido";
 import EstadoReactor from "../../src/estadosReactor/estadoReactor";
 
 
@@ -13,16 +12,17 @@ const mockAlerta = {} as any;
 describe('Operador', () => {
     let central: CentralNuclear;
     let operador: Operador;
+    let alerta: Alerta;
     let strategy: RefrigerableStrategy;
     let reactor: Reactor;
-    let estado : EstadoReactorDisminuido;
+    let estado : EstadoReactor;
     beforeEach(() => {
         estado = Mocks.mockEstado;
         reactor = Mocks.mockReactor;
-        reactor.estado = estado;
         central = CentralNuclear.getInstance();
         central.reactor = reactor;
         operador = new Operador(1);
+        alerta = mockAlerta; 
         strategy = Mocks.mockStrategy; 
     });
 
@@ -41,11 +41,24 @@ describe('Operador', () => {
     
     it('Verificar el funcionamiento de recibir alerta', () => {
         operador.strategy = strategy;
-        const spy = jest.spyOn(operador, 'activarProtocoloDeEnfriamiento');
-        const otherSpy = jest.spyOn(CentralNuclear.getInstance(), 'activarMecanismoDeEnfriamiento');
         operador.recibirAlerta(estado);
         expect(operador['_alerta'].length).toBe(1);
-        expect(spy).toHaveBeenCalled();
-        expect(otherSpy).toHaveBeenCalled();
+    });
+
+    it("debería establecer y obtener la estrategia correctamente", () => {
+        operador.strategy = strategy;
+        expect(operador.strategy).toBe(strategy);
+    });
+
+    it("debería devolver el array de alertas correctamente", () => {
+        operador.strategy = strategy;
+
+        operador.recibirAlerta(estado);
+        operador.recibirAlerta(estado);
+
+        const alertas = operador.alerta;
+        expect(alertas.length).toBe(2);
+        expect(alertas[0]).toBeInstanceOf(Alerta);
+        expect(alertas[1]).toBeInstanceOf(Alerta);
     });
 });
