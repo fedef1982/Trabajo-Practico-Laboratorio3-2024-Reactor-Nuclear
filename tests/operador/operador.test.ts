@@ -13,17 +13,16 @@ const mockAlerta = {} as any;
 describe('Operador', () => {
     let central: CentralNuclear;
     let operador: Operador;
-    let alerta: Alerta;
     let strategy: RefrigerableStrategy;
     let reactor: Reactor;
-    let estado : EstadoReactor;
+    let estado : EstadoReactorDisminuido;
     beforeEach(() => {
         estado = Mocks.mockEstado;
         reactor = Mocks.mockReactor;
+        reactor.estado = estado;
         central = CentralNuclear.getInstance();
         central.reactor = reactor;
         operador = new Operador(1);
-        alerta = mockAlerta; 
         strategy = Mocks.mockStrategy; 
     });
 
@@ -42,7 +41,11 @@ describe('Operador', () => {
     
     it('Verificar el funcionamiento de recibir alerta', () => {
         operador.strategy = strategy;
+        const spy = jest.spyOn(operador, 'activarProtocoloDeEnfriamiento');
+        const otherSpy = jest.spyOn(CentralNuclear.getInstance(), 'activarMecanismoDeEnfriamiento');
         operador.recibirAlerta(estado);
         expect(operador['_alerta'].length).toBe(1);
+        expect(spy).toHaveBeenCalled();
+        expect(otherSpy).toHaveBeenCalled();
     });
 });
