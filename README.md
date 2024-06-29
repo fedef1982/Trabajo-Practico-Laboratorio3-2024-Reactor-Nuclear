@@ -70,7 +70,7 @@ Instala las dependencias del proyecto ejecutando el siguiente comando en el dire
 Para compilar los archivos ejecuta:
 
 ```bash
-  npm run buil
+  npm run build
 ```
 
 ## ▶️ Ejecución
@@ -91,14 +91,19 @@ Para testear el proyecto usa el comando en tu terminal
 ```css
 Trabajo-Practico-Laboratorio3-2024-Reactor-Nuclear
 |
-├─ diagramas
-│  └─ DiagramaDeClases.puml
+├─ diagramas/
+│  ├─ DiagramaDeClases.puml
+│  ├─ DiagramaDeClasesObservadores.puml
+│  ├─ DiagramaDeClasesReactor.puml
+│  ├─ DiagramaDeClasesRefrigeracion.puml
+│  ├─ DiagramaSecuenciaEnfriamiento.puml
+│  └─ DiagramaSecuenciaInicio.puml
 │
-├─ src
-│  ├─ central
+├─ src/
+│  ├─ central/
 │  │  └─ centralNuclear.ts
 │  ├─ constantes.ts
-│  ├─ estadosReactor
+│  ├─ estadosReactor/
 │  │  ├─ estadoReactor.ts
 │  │  ├─ estadoReactorApagado.ts
 │  │  ├─ estadoReactorCritico.ts
@@ -107,16 +112,16 @@ Trabajo-Practico-Laboratorio3-2024-Reactor-Nuclear
 │  │  ├─ estadoReactorNormal.ts
 │  │  ├─ ISuscriptorEstadoApagado.ts
 │  │  └─ ISuscriptorEstadoDisminuido.ts
-│  ├─ excepciones
+│  ├─ excepciones/
 │  │  └─ noSeGeneraEnergiaException.ts
-│  ├─ operador
+│  ├─ operador/
 │  │  ├─ operador.ts
 │  │  └─ srBurns.ts
-│  ├─ reactor
+│  ├─ reactor/
 │  │  ├─ builderReactor.ts
 │  │  ├─ combustible.ts
 │  │  ├─ directorReactor.ts
-│  │  ├─ generador
+│  │  ├─ generador/
 │  │  │  ├─ Generador.ts
 │  │  │  ├─ IGenerador.ts
 │  │  │  └─ ISuscriptorEnegiaNeta.ts
@@ -128,21 +133,21 @@ Trabajo-Practico-Laboratorio3-2024-Reactor-Nuclear
 │  │  ├─ nucleo.ts
 │  │  ├─ reactor.ts
 │  │  └─ sensor.ts
-│  ├─ refrigeracion
+│  ├─ refrigeracion/
 │  │  ├─ barrasDeControl.ts
 │  │  ├─ barraStrategy.ts
 │  │  ├─ refrigerableStrategy.ts
 │  │  ├─ turbina.ts
 │  │  └─ turbinaStrategy.ts
-│  └─ tablero
+│  └─ tablero/
 │     ├─ alerta.ts
 │     ├─ mostrable.ts
 │     ├─ tablero.ts
 │     └─ tableroConsola.ts
-├─ tests
-│  ├─ central
+├─ tests/
+│  ├─ central/
 │  │  └─ centralNuclear.test.ts
-│  ├─ estadosReactor
+│  ├─ estadosReactor/
 │  │  ├─ estadoReactorApagado.test.ts
 │  │  ├─ estadoReactorCritico.test.ts
 │  │  ├─ estadoReactorDisminuido.test.ts
@@ -151,23 +156,24 @@ Trabajo-Practico-Laboratorio3-2024-Reactor-Nuclear
 │  ├─ mockMostrable.ts
 │  ├─ mocks.ts
 │  ├─ mocksReactor.ts
-│  ├─ operador
+│  ├─ operador/
+│  │  ├─ operador.test.ts
 │  │  └─ srBurns.test.ts
-│  ├─ reactor
+│  ├─ reactor/
 │  │  ├─ builderReactor.test.ts
 │  │  ├─ combustible.test.ts
 │  │  ├─ directorReactor.test.ts
-│  │  ├─ generador
+│  │  ├─ generador/
 │  │  │  └─ generador.test.ts
 │  │  ├─ nucleo.test.ts
 │  │  ├─ reactor.test.ts
 │  │  └─ sensor.test.ts
-│  ├─ refrigeracion
+│  ├─ refrigeracion/
 │  │  ├─ barrasDeControl.test.ts
 │  │  ├─ barraStrategy.test.ts
 │  │  ├─ turbina.test.ts
 │  │  └─ turbinaStrategy.test.ts
-│  └─ tablero
+│  └─ tablero/
 │     ├─ alerta.test.ts
 │     ├─ mostrable.test.ts
 │     └─ tableroConsola.test.ts
@@ -184,7 +190,7 @@ Trabajo-Practico-Laboratorio3-2024-Reactor-Nuclear
   <tr>
     <td align="center">
       <a href="https://github.com/Camirolejo">
-        <img src="https://i.pinimg.com/originals/7f/ae/97/7fae97b0d62464f833f75a7cce0a9902.gif" width="100px;" alt="-"/><br>
+        <img src="https://i.pinimg.com/originals/ee/03/54/ee0354ee6689f83a0326291b79d819e1.jpg" width="100px;" alt="-"/><br>
         <sub>
           <b>Camila García</b>
         </sub>
@@ -192,7 +198,7 @@ Trabajo-Practico-Laboratorio3-2024-Reactor-Nuclear
     </td>   
     <td align="center">
       <a href="https://github.com/abrilAlvarez1">
-        <img src="https://i.pinimg.com/originals/82/b1/10/82b110042a8fbdbfe1cce599951cb6b4.gif" width="100px;" alt=""/><br>
+        <img src="https://i.pinimg.com/originals/2a/4c/e2/2a4ce25630c250e2f10cc4b5de34cf04.jpg" width="100px;" alt=""/><br>
         <sub>
           <b>Abril Alvarez</b>
         </sub>
@@ -200,7 +206,7 @@ Trabajo-Practico-Laboratorio3-2024-Reactor-Nuclear
     </td>
     <td align="center">
       <a href="https://github.com/NiAlGon">
-        <img src="https://i.pinimg.com/originals/b9/c1/5b/b9c15bcb4b3c1031d8e6a15e6cb06843.gif" width="100px;" alt="-"/><br>
+        <img src="https://i.pinimg.com/originals/e9/80/08/e9800881d89878ae20ed541503c0c2db.jpg" width="100px;" alt="-"/><br>
         <sub>
           <b>Nicolás Gonzalez</b>
         </sub>
@@ -208,7 +214,7 @@ Trabajo-Practico-Laboratorio3-2024-Reactor-Nuclear
     </td>
       <td align="center">
       <a href="https://github.com/fedef1982">
-        <img src="https://i.pinimg.com/originals/c8/25/be/c825be1e26d369e77c8ac4f1d84dfe9c.gif" width="100px;" alt=""/><br>
+        <img src="https://i.pinimg.com/originals/dd/4c/e4/dd4ce422a0b424b4653933b7092d4077.jpg" width="100px;" alt=""/><br>
         <sub>
           <b>Federíco Fresco</b>
         </sub>
