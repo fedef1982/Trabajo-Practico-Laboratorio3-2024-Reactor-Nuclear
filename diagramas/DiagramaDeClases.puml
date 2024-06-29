@@ -42,11 +42,13 @@ BuilderReactor ..|> IBuilderReactor
 
 ' Clases
 class CentralNuclear{
+    - _instance : CentralNuclear
     - _operadores: Operador[]
     - _reactores: Reactor[]
     - _tableros: tablero[]
     - _estrategia: RefrigerableStrategy
     
+    + getInstance()
     + activarMecanismoDeEnfriamiento()
     + agregarOperador(operador : Operador)
     + quitarOperador(operador : Operador)
@@ -97,7 +99,7 @@ interface IGenerador {
 }
 
 interface ISuscriptorEnergiaNeta{
-    actualizarEnergiaNeta(energiaNeta: number):void
+    + actualizarEnergiaNeta(energiaNeta: number):void
 }
 
 class Generador implements IGenerador {
