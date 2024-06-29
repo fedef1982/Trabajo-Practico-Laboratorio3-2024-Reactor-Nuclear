@@ -54,6 +54,6 @@ export default class EstadoReactorDisminuido extends EstadoReactor{
 
     private puedeGenerarEnergia(horasGenerando : number, horasLimite : number, cantidadCombustible : number, temperaturaActual : number) : boolean {
 
-        return horasGenerando <= horasLimite && cantidadCombustible> 0 && temperaturaActual < 400
+        return horasGenerando <= horasLimite && cantidadCombustible > 0 && temperaturaActual < 400;
     }
 }
