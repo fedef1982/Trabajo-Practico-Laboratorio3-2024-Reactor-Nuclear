@@ -14,7 +14,7 @@ export default class EstadoReactorNormal extends EstadoReactor{
 
         while(this.puedeGenerarEnergia(horasQueLlevaGenerando, horasParaGenerarEnergia, cantidadCombustible, temperaturaReactorActual)){
             this._reactor.generador.generarEnergia(100, temperaturaReactorActual);
-            temperaturaReactorActual += 8;
+            temperaturaReactorActual * (this._reactor.combustible.porcentajeAumentoTemperatura / 100);
             
             this._reactor.nucleo.temperatura = temperaturaReactorActual;
             horasQueLlevaGenerando++;

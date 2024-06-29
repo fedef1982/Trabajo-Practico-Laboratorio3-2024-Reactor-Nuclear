@@ -1,0 +1,22 @@
+@startuml Diagrama Secuencia Enfriamiento BarraStrategy
+
+title Diagrama Secuencia Enfriamiento BarraStrategy
+skinparam BackgroundColor lightyellow
+
+EstadoDisminuido --> Operador: notificarEstado()
+Operador --> Alerta: recibirAlerta()
+Alerta --> Operador: Estado Disminuido
+Operador --> CentralNuclear: setStrategy()
+Operador --> CentralNuclear: activarMecanismoEnfriamiento()
+CentralNuclear --> BarraStrategy: enfriar()
+BarraStrategy --> Nucleo: insertarBarraControl()
+BarraStrategy --> BarraControl: porsentajeReduccion() 
+BarraControl --> BarraStrategy: Porcentaje disminucuion de Temperatura
+BarraStrategy --> Nucleo: disminuirTemperatura()
+note right
+  Disminuye Temperatura hasta que 
+  Estado del reactor sea Normal
+  o hasta quedarse sin Barras de Control
+end note
+
+@enduml

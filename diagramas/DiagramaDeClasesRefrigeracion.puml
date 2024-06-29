@@ -1,24 +1,15 @@
-@startuml Diagrama de Clases General
+@startuml Diagrama de Clases RefrigerableStrategy
 
-title Diagrama de Clases General
-skinparam BackgroundColor azure
+title Diagrama de Clases Estreategia Refrigeracion
+skinparam BackgroundColor APPLICATION
+
 ' Relaciones
-'CentralNuclear *-r- Operador
-'CentralNuclear *-r- SrBurns
-CentralNuclear *-l- Reactor
-CentralNuclear *-r- Tablero
-CentralNuclear *-d- RefrigerableStrategy
+CentralNuclear *-l- Operador
+CentralNuclear *-r- Reactor
+CentralNuclear *-- RefrigerableStrategy
 
-Reactor *-l- EstadoReactor
-Reactor *-d- INucleo
-Reactor o-d- ICombustible
-Reactor *-d- IGenerador
-
-EstadoReactor -u[HIDDEN]- EstadoReactorEncendido
-EstadoReactor -u[HIDDEN]- EstadoReactorApagado
-EstadoReactor -u[HIDDEN]- EstadoReactorNormal
-
-Generador o-- ISuscriptorEnergiaNeta
+Reactor *-u- EstadoReactor
+Reactor *-- INucleo
 
 EstadoReactorCritico o-- ISuscriptorEstadoApagado
 EstadoReactorDisminuido o-- ISuscriptorEstadoDisminuido
@@ -27,22 +18,10 @@ Nucleo *-- ISensor
 Nucleo o-- BarraDeControl
 
 TurbinaDeRefrigeracionStrategy *-- TurbinaDeRefrigeracion
-BarraDeControlStrategy *-- BarraDeControl
+BarraDeControlStrategy *-r- BarraDeControl
 
 Sensor o-- ISuscriptorTemperatura
 Operador o-- Alerta
-Tablero o-- Mostrable
-
-BuilderReactor --> Reactor
-'BuilderReactor o-- ICombustible
-'BuilderReactor o-- INucleo
-'BuilderReactor o-- IGenerador
-
-BuilderReactor -l[HIDDEN]- IBuilderReactor
-
-directorReactor *-- IBuilderReactor
-
-BuilderReactor ..|> IBuilderReactor
 
 ' Clases
 class CentralNuclear{
@@ -71,66 +50,6 @@ class Reactor{
     + generarEnergia(horas : number)
 }
 
-class BuilderReactor{
-    - capacidad : number
-    - combustible : ICombustible
-    - nucleo : INucleo
-    - generador : IGenerador
-
-    + setCapacidad(capacidad: number) : void
-    + setCombustible(combustible: ICombustible) : void
-    + setNucleo(nucleo: INucleo) : void
-    + setGenerador(generador: IGenerador) : void
-    + getReactor() : Reactor 
-}
-interface IBuilderReactor{
-    + setCapacidad(capacidad : number) : void
-    + setCombustible(combustible : ICombustible) : void
-    + setNucleo(nucleo : INucleo) : void
-    + setGenerador(generador : IGenerador) : void
-}
-class directorReactor{
-    - builder : IBuilderReactor
-    + cambiarBuilder( builder : IBuilderReactor) : void
-    + crearReactor() : void
-}
-
-
-interface IGenerador {
-    + generarEnergia(porcentajeCP : number, temp : number) : number
-}
-
-interface ISuscriptorEnergiaNeta{
-    actualizarEnergiaNeta(energiaNeta: number):void
-}
-
-class Generador implements IGenerador {
-    - _energiaNeta: number
-    - _suscriptoresEnergiaNeta: ISuscriptorEnergiaNeta[]
-
-    + generarEnergia(porcentajeCP : number, temp : number):number
-    + calcularEnergiaNeta(temperactura: number): number
-    + suscribir(suscriptor: ISuscriptorEnergiaNeta):void
-    + desuscribir(suscriptor: ISuscriptorEnergiaNeta):void
-    + notificarEnergiaNeta():void
-}
-
-interface ICombustible {
-    + setCantidadCombustible(cantCombustible : number)
-    + getCantidadCombustible() : number
-    + getPorcentajeAumentoTemperatura() : number
-}
-
-class Combustible implements ICombustible {
-    - _cantidadCombustible : number
-    - _porcentajeAumentoTemperatura : number
-
-    + setCantidadCombustible(cantCombustible : number)
-    + getCantidadCombustible() : number
-    + getPorcentajeAumentoTemperatura() : number
-}
-
-' Observer
 interface ISensor{
     + setTemperaturaReactor(temperatura : number)
     + getTemperaturaReactor () : number
@@ -149,27 +68,6 @@ class Sensor implements ISensor{
 
 interface ISuscriptorTemperatura{
     + actualizarTemperatura(temperatura : number) : void
-}
-
-abstract class Tablero implements ISuscriptorEnergiaNeta, ISuscriptorTemperatura{
-    # _energiaNeta: Mostrable
-    # _temperatura: Mostrable
-
-    + actualizarEnergiaNeta(energiaNeta: number): void
-    + actualizarTemperatura(temperatura: number): void 
-    + abstract mostrarIndicadores():void
-}
-
-class tableroConsola extends Tablero{
-    + mostrarIndicadores()
-
-}
-
-class Mostrable{
-    - _valor: number
-    - _descripcion: string
-
-    + mostrar():string
 }
 
 interface INucleo{
@@ -194,7 +92,6 @@ class Nucleo implements INucleo{
     + sacarBarraDeControl() : void
 }
 
-' Strategy
 interface RefrigerableStrategy{
     + disminuirTemperatura(porcentajeR : number, reactor : Reactor) : void
     + enfriar(reactor : Reactor) : void
@@ -236,7 +133,6 @@ class TurbinaDeRefrigeracion {
     + desactivar()
 }
 
-' State + Observer Estado
 abstract class EstadoReactor{
     # _reactor: Reactor
 
@@ -278,11 +174,7 @@ class EstadoReactorNormal extends EstadoReactor{
 
 class EstadoReactorApagado extends EstadoReactor{
     + generarEnergia(horas : number): void
- }
-
-class EstadoReactorEncendido extends EstadoReactor{
-    + generarEnergia(horas : number): void
- }
+}
 
 class Operador implements ISuscriptorEstadoDisminuido{
     - _legajo : number
