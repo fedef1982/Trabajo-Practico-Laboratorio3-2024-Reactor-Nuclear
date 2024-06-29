@@ -3,8 +3,7 @@
 title Diagrama de Clases General
 skinparam BackgroundColor azure
 ' Relaciones
-'CentralNuclear *-r- Operador
-'CentralNuclear *-r- SrBurns
+
 CentralNuclear *-l- Reactor
 CentralNuclear *-r- Tablero
 CentralNuclear *-d- RefrigerableStrategy
@@ -34,9 +33,6 @@ Operador o-- Alerta
 Tablero o-- Mostrable
 
 BuilderReactor --> Reactor
-'BuilderReactor o-- ICombustible
-'BuilderReactor o-- INucleo
-'BuilderReactor o-- IGenerador
 
 BuilderReactor -l[HIDDEN]- IBuilderReactor
 
@@ -162,7 +158,6 @@ abstract class Tablero implements ISuscriptorEnergiaNeta, ISuscriptorTemperatura
 
 class tableroConsola extends Tablero{
     + mostrarIndicadores()
-
 }
 
 class Mostrable{
@@ -183,7 +178,6 @@ interface INucleo{
 
 class Nucleo implements INucleo{
     - _barraDeControl : BarrasDeControl
-    - _temperatura : number
     - _sensor : ISensor
         
     + setTemperatura(temperatura : number)
@@ -269,7 +263,7 @@ class EstadoReactorDisminuido extends EstadoReactor{
     + suscribir(suscriptor : ISuscriptorEstadoDisminuido)
     + desuscribir(suscriptor : ISuscriptorEstadoDisminuido)
     + notificarEstado()
- }
+}
 
 class EstadoReactorNormal extends EstadoReactor{
     + equals(estado : EstadoReactor) : boolean
@@ -278,11 +272,11 @@ class EstadoReactorNormal extends EstadoReactor{
 
 class EstadoReactorApagado extends EstadoReactor{
     + generarEnergia(horas : number): void
- }
+}
 
 class EstadoReactorEncendido extends EstadoReactor{
     + generarEnergia(horas : number): void
- }
+}
 
 class Operador implements ISuscriptorEstadoDisminuido{
     - _legajo : number
