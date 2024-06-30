@@ -1,7 +1,7 @@
 # ☢️ Trabajo Práctico - El Reactor Nuclear ☢️
 
 <p align="center">
-    <img src="https://i.pinimg.com/564x/31/63/3f/31633f9650dd972188b41ce7c7366b4d.jpg" width="80%">
+    <img src="https://i.postimg.cc/RVz8XVyk/image.png" width="80%">
 </p>
 
 ## Tabla de Contenido
@@ -20,7 +20,7 @@
 7. [📁 Estructura del Proyecto](#📁-estructura-del-proyecto)
 8. [🤝 Autores](#🤝-autores)
 
-
+[🌟 Enunciado](./ENUNCIADO.md)
 
 ## Introducción
 Este proyecto implementa un sistema de asistencia específicamente desarrollado para asistir a los operadores, incluyendo a Homero J. S., en la supervisión y control del reactor nuclear.
